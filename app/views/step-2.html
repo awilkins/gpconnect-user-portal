@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block header %}
+    {% include "includes/header-servicename.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    <nav class="nhsuk-breadcrumb" aria-label="Breadcrumb">
+        <div class="nhsuk-width-container">
+            <ol class="nhsuk-breadcrumb__list">
+                <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/">Home</a></li>
+                <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/step-1">Step 1</a></li>
+                <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="/step-2">Step 2</a></li>
+            </ol>
+        </div>
+    </nav>
+
+    <div class="nhsuk-width-container">
+        <main class="nhsuk-main-wrapper" id="maincontent">
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-card">
+                        <div class="nhsuk-card__content">
+                            <h3 class="nhsuk-card__heading">Step 2 - Signup Process</h3>
+                            <p class="nhsuk-card__description">We would like to confirm the supplier and product to which this agreement will apply.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-card nhsuk-card--feature">
+                        <div class="nhsuk-card__content nhsuk-card__content--feature">
+                            <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                Supplier and Product Details
+                            </h2>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-supplier-name">Supplier Name</label>
+                                <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">The name of the supplier of the product</div>
+                                <input class="nhsuk-input" id="input-supplier-name" name="supplier" type="text" aria-describedby="input-supplier-name-with-hint-text-hint">
+                            </div>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-product-name">Product Name</label>
+                                <div class="nhsuk-hint" id="input-product-name-with-hint-text-hint">The name of the supplier</div>
+                                <input class="nhsuk-input" id="input-product-name" name="product" type="text" aria-describedby="input-product-name-with-hint-text-hint">
+                            </div>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-version-number">Release/Version Number</label>
+                                <div class="nhsuk-hint" id="input-version-number-with-hint-text-hint">The release/version number of the product</div>
+                                <input class="nhsuk-input" id="input-version-number" name="version-number" type="text" aria-describedby="input-version-number-with-hint-text-hint">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-action-link">
+                        <a class="nhsuk-action-link__link" href="/Step-3">
+                            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+                            </svg>
+                            <span class="nhsuk-action-link__text">Continue</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    {% endblock %}
+
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock %}
+</body>
+</html>
