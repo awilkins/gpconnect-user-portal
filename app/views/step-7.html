@@ -25,8 +25,8 @@
                 <div class="nhsuk-grid-column-full">
                     <div class="nhsuk-card">
                         <div class="nhsuk-card__content">
-                            <h3 class="nhsuk-card__heading">Step 2 - Signup Process</h3>
-                            <p class="nhsuk-card__description">We would like to confirm the supplier and product to which this agreement will apply.</p>
+                            <h3 class="nhsuk-card__heading">Step 7 - Signup Process</h3>
+                            <p class="nhsuk-card__description">We would like to capture your consent to the agreement.</p>
                             <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
                         </div>
                     </div>
@@ -38,22 +38,22 @@
                     <div class="nhsuk-card nhsuk-card--feature">
                         <div class="nhsuk-card__content nhsuk-card__content--feature">
                             <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                Supplier and Product Details
+                                Agree to the National Data Sharing Agreement
                             </h2>
                             <div class="nhsuk-form-group">
-                                <label class="nhsuk-label" for="input-supplier-name">Supplier Name</label>
-                                <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">* The name of the supplier of the product</div>
-                                <input class="nhsuk-input" id="input-supplier-name" name="supplier-name" type="text" aria-describedby="input-supplier-name-with-hint-text-hint">
-                            </div>
-                            <div class="nhsuk-form-group">
-                                <label class="nhsuk-label" for="input-product-name">Product Name</label>
-                                <div class="nhsuk-hint" id="input-product-name-with-hint-text-hint">* The name of the supplier</div>
-                                <input class="nhsuk-input" id="input-product-name" name="product-name" type="text" aria-describedby="input-product-name-with-hint-text-hint">
-                            </div>
-                            <div class="nhsuk-form-group">
-                                <label class="nhsuk-label" for="input-version-number">Release/Version Number</label>
-                                <div class="nhsuk-hint" id="input-version-number-with-hint-text-hint">* The release/version number of the product</div>
-                                <input class="nhsuk-input" id="input-version-number" name="version-number" type="text" aria-describedby="input-version-number-with-hint-text-hint">
+                                <div class="nhsuk-hint" id="input-reason-agreement-hint">
+                                    * Please indicate if you agree to the data sharing agreement or not
+                                </div>
+                                <div class="nhsuk-radios">
+                                    <div class="nhsuk-radios__item">
+                                        <input class="nhsuk-radios__input" id="input-agree-yes" name="agree" type="radio" value="true">
+                                        <label class="nhsuk-label nhsuk-radios__label" for="input-agree-yes">I agree to this agreement</label>
+                                    </div>
+                                    <div class="nhsuk-radios__item">
+                                        <input class="nhsuk-radios__input" id="input-agree-no" name="agree" type="radio" value="false">
+                                        <label class="nhsuk-label nhsuk-radios__label" for="input-agree-no">I do not agree to this agreement</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
             <div class="nhsuk-grid-row">
                 <div class="nhsuk-grid-column-full">
                     <div class="nhsuk-action-link">
-                        <a class="nhsuk-action-link__link" href="/step-3">
+                        <a class="nhsuk-action-link__link" href="/review">
                             <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
                                 <path d="M0 0h24v24H0z" fill="none"></path>
                                 <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>

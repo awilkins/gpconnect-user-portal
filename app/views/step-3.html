@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block header %}
+    {% include "includes/header-servicename.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    {% include "includes/breadcrumb.html" %}
+
+    <div class="nhsuk-width-container">
+        <main class="nhsuk-main-wrapper" id="maincontent">
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-card">
+                        <div class="nhsuk-card__content">
+                            <h3 class="nhsuk-card__heading">Step 3 - Signup Process</h3>
+                            <p class="nhsuk-card__description">We would like to capture some details about the signatories.</p>
+                            <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-card nhsuk-card--feature">
+                        <div class="nhsuk-card__content nhsuk-card__content--feature">
+                            <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                Signatories Details
+                            </h2>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-signatory-name">Full Name</label>
+                                <div class="nhsuk-hint" id="input-signatory-name-with-hint-text-hint">* The full name of the signatory</div>
+                                <input class="nhsuk-input" id="input-signatory-name" name="signatory-name" type="text" aria-describedby="input-signatory-name-with-hint-text-hint">
+                            </div>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-signatory-jobtitle">Job Title</label>
+                                <div class="nhsuk-hint" id="input-signatory-jobtitle-with-hint-text-hint">* The job title of the signatory</div>
+                                <input class="nhsuk-input" id="input-signatory-jobtitle" name="signatory-jobtitle" type="text" aria-describedby="input-product-name-with-hint-text-hint">
+                            </div>
+                            <div class="nhsuk-form-group">
+                                <label class="nhsuk-label" for="input-signatory-email">Email Address</label>
+                                <div class="nhsuk-hint" id="input-signatory-email-with-hint-text-hint">* The email address of the signatory</div>
+                                <input class="nhsuk-input" id="input-signatory-jobtitle" name="signatory-jobtitle" type="text" aria-describedby="input-product-name-with-hint-text-hint">
+                            </div>
+                            <div class="nhsuk-form-group">
+                                <fieldset class="nhsuk-fieldset" aria-describedby="input-proxy-declaration-hint-text">
+                                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+                                        Proxy Declaration
+                                    </legend>
+                                    <div class="nhsuk-hint" id="input-proxy-declaration-hint-text">
+                                        Please indicate if you are the signatory or someone else is
+                                    </div>
+                                    <div class="nhsuk-radios">
+                                        <div class="nhsuk-radios__item">
+                                            <input class="nhsuk-radios__input" id="input-signatory-me" name="signatory" type="radio" value="true">
+                                            <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-me">I am the signatory</label>
+                                        </div>
+                                        <div class="nhsuk-radios__item">
+                                            <input class="nhsuk-radios__input" id="input-signatory-else" name="signatory" type="radio" value="false">
+                                            <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-action-link">
+                        <a class="nhsuk-action-link__link" href="/step-4">
+                            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+                            </svg>
+                            <span class="nhsuk-action-link__text">Continue</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    {% endblock %}
+
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock %}
+</body>
+</html>
