@@ -19,78 +19,74 @@
 
     {% include "includes/breadcrumb.html" %}
 
-    <div class="nhsuk-width-container">
-        <main class="nhsuk-main-wrapper" id="maincontent">
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-card">
-                        <div class="nhsuk-card__content">
-                            <h3 class="nhsuk-card__heading">Step 1 - Signup Process</h3>
-                            <p class="nhsuk-card__description">We would like to capture some details about your organisation. Don't worry - we won't use the details other than for the purpose of verifying your registration.</p>
-                            <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-card nhsuk-card--feature">
-                        <div class="nhsuk-card__content nhsuk-card__content--feature">
-                            <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                Your Organisation's Details
-                            </h2>
-                            <div class="nhsuk-form-group">
-                                <label class="nhsuk-label" for="input-organisation-name">Organisation Name</label>
-                                <div class="nhsuk-hint" id="input-organisation-name-with-hint-text-hint">* Enter the name of your organisation</div>
-                                <input class="nhsuk-input" id="input-organisation-name" name="organisation-name" type="text" aria-describedby="input-organisation-name-with-hint-text-hint">
+    <form action="/step-1" method="POST">
+        <div class="nhsuk-width-container">
+            <main class="nhsuk-main-wrapper" id="maincontent">
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card">
+                            <div class="nhsuk-card__content">
+                                <h3 class="nhsuk-card__heading">Step 1 - Signup Process</h3>
+                                <p class="nhsuk-card__description">We would like to capture some details about your organisation. Don't worry - we won't use the details other than for the purpose of verifying your registration.</p>
+                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
                             </div>
-                            <fieldset class="nhsuk-fieldset">
-                                <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
-                                    <h1 class="nhsuk-fieldset__heading">
-                                        Organisation Address
-                                    </h1>
-                                </legend>
-                                <div class="nhsuk-form-group">
-                                    <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
-                                    <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
-                                    <input class="nhsuk-input" id="input-organisation-building" name="organisation-building" type="text" aria-describedby="input-organisation-building-with-hint-text-hint">
-                                    <input class="nhsuk-input" id="input-organisation-street" name="organisation-street" type="text" aria-describedby="input-organisation-street-with-hint-text-hint">
-                                </div>
-                                <div class="nhsuk-form-group">
-                                    <label class="nhsuk-label" for="input-organisation-town">Town or City</label>
-                                    <div class="nhsuk-hint" id="input-organisation-town-with-hint-text-hint">* Enter the town or city part of your organisation's address</div>
-                                    <input class="nhsuk-input" id="input-organisation-town" name="organisation-town" type="text" aria-describedby="input-organisation-town-with-hint-text-hint">
-                                </div>
-                                <div class="nhsuk-form-group">
-                                    <label class="nhsuk-label" for="input-organisation-postcode">Postcode</label>
-                                    <div class="nhsuk-hint" id="input-organisation-postcode-with-hint-text-hint">* Enter the postcode of your organisation's address</div>
-                                    <input class="nhsuk-input" id="input-organisation-postcode" name="organisation-postcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint">
-                                </div>
-                            </fieldset>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-action-link">
-                        <a class="nhsuk-action-link__link" href="/step-2">
-                            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
-                                <path d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
-                            </svg>
-                            <span class="nhsuk-action-link__text">Continue</span>
-                        </a>
+
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card nhsuk-card--feature">
+                            <div class="nhsuk-card__content nhsuk-card__content--feature">
+                                <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                    Your Organisation's Details
+                                </h2>
+                                <div class="nhsuk-form-group">
+                                    <label class="nhsuk-label" for="input-organisation-name">Organisation Name</label>
+                                    <div class="nhsuk-hint" id="input-organisation-name-with-hint-text-hint">* Enter the name of your organisation</div>
+                                    <input class="nhsuk-input" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
+                                </div>
+                                <fieldset class="nhsuk-fieldset">
+                                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
+                                        <h1 class="nhsuk-fieldset__heading">
+                                            Organisation Address
+                                        </h1>
+                                    </legend>
+                                    <div class="nhsuk-form-group">
+                                        <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
+                                        <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
+                                        <input class="nhsuk-input" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
+                                        <input class="nhsuk-input" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
+                                    </div>
+                                    <div class="nhsuk-form-group">
+                                        <label class="nhsuk-label" for="input-organisation-town">Town or City</label>
+                                        <div class="nhsuk-hint" id="input-organisation-town-with-hint-text-hint">* Enter the town or city part of your organisation's address</div>
+                                        <input class="nhsuk-input" id="input-organisation-town" name="organisationTown" type="text" aria-describedby="input-organisation-town-with-hint-text-hint" value="{{ visited.organisationTown }}">
+                                    </div>
+                                    <div class="nhsuk-form-group">
+                                        <label class="nhsuk-label" for="input-organisation-postcode">Postcode</label>
+                                        <div class="nhsuk-hint" id="input-organisation-postcode-with-hint-text-hint">* Enter the postcode of your organisation's address</div>
+                                        <input class="nhsuk-input" id="input-organisation-postcode" name="organisationPostcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint" value="{{ visited.organisationPostcode }}">
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
     {% endblock %}
 
     {% block footer %}
     {% include "includes/footer.html" %}
     {% endblock %}
+
+
 </body>
 </html>

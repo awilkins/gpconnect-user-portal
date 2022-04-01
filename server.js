@@ -10,6 +10,7 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const sessionInCookie = require('client-sessions')
 const sessionInMemory = require('express-session')
+const ejs = require("ejs");
 
 // Run before other code to make sure variables from .env are available
 dotenv.config()
@@ -39,6 +40,65 @@ if (fs.existsSync('./app/v6/routes.js')) {
 
 const app = express()
 const documentationApp = express()
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+
+const visited = {
+    organisationName: '',
+    organisationBuilding: '',
+    organisationStreet: '',
+    organisationTown: '',
+    organisationPostcode: '',
+    supplierName: '',
+    productName: '',
+    versionNumber: '',
+};
+
+const enabledProgressBookmarks = {
+    step1: true,
+    step2: false,
+    step3: false,
+    step4: false,
+    step5: false,
+    step6: false,
+    step7: false,
+    review: false
+}
+
+app.get("/start", (req, res) => {
+    res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+});
+
+app.get("/step-1", (req, res) => {
+    res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+});
+
+app.get("/step-2", (req, res) => {
+    res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+});
+
+app.get("/step-3", (req, res) => {
+    res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+});
+
+app.post("/step-1", function (req, res) {
+    visited.organisationName = req.body.organisationName;
+    visited.organisationBuilding = req.body.organisationBuilding;
+    visited.organisationStreet = req.body.organisationStreet;
+    visited.organisationTown = req.body.organisationTown;
+    visited.organisationPostcode = req.body.organisationPostcode;
+    enabledProgressBookmarks.step2 = true;
+    res.redirect("/step-2");
+});
+
+app.post("/step-2", function (req, res) {
+    visited.supplierName = req.body.supplierName;
+    visited.productName = req.body.productName;
+    visited.versionNumber = req.body.versionNumber;
+    enabledProgressBookmarks.step3 = true;
+    res.redirect("/step-3");
+});
 
 if (useV6) {
   console.log('/app/v6/routes.js detected - using v6 compatibility mode')
