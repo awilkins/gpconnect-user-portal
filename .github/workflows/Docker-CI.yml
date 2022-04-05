@@ -1,0 +1,17 @@
+name: Docker CI
+
+on:
+  push:
+  pull_request:
+    types: [opened]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag dsap-test:$(date +%s)
