@@ -1,12 +1,6 @@
-FROM postgres:11.9
-RUN apt-get update && apt-get -y install postgresql-11-cron
-
 FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
-ARG BUILD_TAG
-ENV BUILD_TAG=$BUILD_TAG
 WORKDIR /app
 EXPOSE 80
-EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
