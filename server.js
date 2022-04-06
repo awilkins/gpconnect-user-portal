@@ -44,6 +44,9 @@ const documentationApp = express()
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
+app.use(express.json());
+
+
 const visited = {
     organisationName: '',
     organisationBuilding: '',
@@ -53,6 +56,13 @@ const visited = {
     supplierName: '',
     productName: '',
     versionNumber: '',
+    signatoryName: '',
+    signatoryJobTitle: '',
+    signatoryEmail: '',
+    signatoryProxyDeclaration: '',
+    careSetting: '',
+    reasonAgreement: '',
+    agreeAgreement: ''
 };
 
 const enabledProgressBookmarks = {
@@ -67,22 +77,83 @@ const enabledProgressBookmarks = {
 }
 
 app.get("/start", (req, res) => {
-    res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    res.render("start", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
 });
 
 app.get("/step-1", (req, res) => {
-    res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    if (enabledProgressBookmarks.step1) {
+        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
 });
 
 app.get("/step-2", (req, res) => {
-    res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    if (enabledProgressBookmarks.step2) {
+        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
 });
 
 app.get("/step-3", (req, res) => {
-    res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    if (enabledProgressBookmarks.step3) {
+        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
 });
 
-app.post("/step-1", function (req, res) {
+app.get("/step-4", (req, res) => {
+    if (enabledProgressBookmarks.step4) {
+        careSetting = visited.careSetting;
+        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-5", (req, res) => {
+    if (enabledProgressBookmarks.step5) {
+        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-6", (req, res) => {
+    if (enabledProgressBookmarks.step6) {
+        res.render("step-6", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-7", (req, res) => {
+    if (enabledProgressBookmarks.step6) {
+        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/review", (req, res) => {
+    if (enabledProgressBookmarks.review) {
+        res.render("review", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.post("/step-1", (req, res) => {
     visited.organisationName = req.body.organisationName;
     visited.organisationBuilding = req.body.organisationBuilding;
     visited.organisationStreet = req.body.organisationStreet;
@@ -98,6 +169,66 @@ app.post("/step-2", function (req, res) {
     visited.versionNumber = req.body.versionNumber;
     enabledProgressBookmarks.step3 = true;
     res.redirect("/step-3");
+});
+
+app.post("/step-3", function (req, res) {
+    visited.signatoryName = req.body.signatoryName;
+    visited.signatoryJobTitle = req.body.signatoryJobTitle;
+    visited.signatoryEmail = req.body.signatoryEmail;
+    visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration;
+    enabledProgressBookmarks.step4 = true;
+    res.redirect("/step-4");
+});
+
+app.post("/step-4", function (req, res) {
+    visited.careSetting = req.body.careSetting;
+    enabledProgressBookmarks.step5 = true;
+    res.redirect("/step-5");
+});
+
+app.post("/step-5", function (req, res) {
+    visited.reasonAgreement = req.body.reasonAgreement;
+    enabledProgressBookmarks.step6 = true;
+    res.redirect("/step-6");
+});
+
+app.post("/step-6", function (req, res) {
+    enabledProgressBookmarks.step7 = true;
+    res.redirect("/step-7");
+});
+
+app.post("/step-7", function (req, res) {
+    visited.agreeAgreement = req.body.agreeAgreement;
+    enabledProgressBookmarks.review = true;
+    res.redirect("/review");
+});
+
+app.post("/review", function (req, res) {
+    visited.organisationName = '';
+    visited.organisationBuilding = '';
+    visited.organisationStreet = '';
+    visited.organisationTown = '';
+    visited.organisationPostcode = '';
+    visited.supplierName = '';
+    visited.productName = '';
+    visited.versionNumber = '';
+    visited.signatoryName = '';
+    visited.signatoryJobTitle = '';
+    visited.signatoryEmail = '';
+    visited.signatoryProxyDeclaration = '';
+    visited.careSetting = '';
+    visited.reasonAgreement = '';
+    visited.agreeAgreement = '';
+
+    enabledProgressBookmarks.step1 = false;
+    enabledProgressBookmarks.step2 = false;
+    enabledProgressBookmarks.step3 = false;
+    enabledProgressBookmarks.step4 = false;
+    enabledProgressBookmarks.step5 = false;
+    enabledProgressBookmarks.step6 = false;
+    enabledProgressBookmarks.step7 = false;
+    enabledProgressBookmarks.review = false;
+    res.redirect("/thankyou");
 });
 
 if (useV6) {

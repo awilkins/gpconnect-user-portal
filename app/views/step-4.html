@@ -18,71 +18,66 @@
     {% block content %}
     {% include "includes/breadcrumb.html" %}
 
-    <div class="nhsuk-width-container">
-        <main class="nhsuk-main-wrapper" id="maincontent">
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-card">
-                        <div class="nhsuk-card__content">
-                            <h3 class="nhsuk-card__heading">Step 4 - Signup Process</h3>
-                            <p class="nhsuk-card__description">We would like to capture some details about the care settings.</p>
-                            <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <form action="/step-4" method="POST">
 
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-card nhsuk-card--feature">
-                        <div class="nhsuk-card__content nhsuk-card__content--feature">
-                            <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                Care Settings
-                            </h2>
-                            <div class="nhsuk-form-group">
-                                <div class="nhsuk-hint" id="input-care-setting-with-hint-text-hint">* Please indicate the care setting for this agreement</div>
-                                <select class="nhsuk-select" id="input-care-setting" name="care-setting">
-                                    <option value=""></option>
-                                    <option value="A&E">A&amp;E</option>
-                                    <option value="Community Provider">Community Provider</option>
-                                    <option value="Demonstrative">Demonstrative</option>
-                                    <option value="Dental Practice">Dental Practice</option>
-                                    <option value="Extended Access Hub">Extended Access Hub</option>
-                                    <option value="General Practice">General Practice</option>
-                                    <option value="Hub (other)">Hub (other)</option>
-                                    <option value="Minor Injuries Unit (MIU)">Minor Injuries Unit (MIU)</option>
-                                    <option value="NHS 111">NHS 111</option>
-                                    <option value="Online Consultation">Online Consultation</option>
-                                    <option value="Optometry">Optometry</option>
-                                    <option value="Pharmacy">Pharmacy</option>
-                                    <option value="Primary Care Network">Primary Care Network</option>
-                                    <option value="Remote Consultation">Remote Consultation</option>
-                                    <option value="Secondary Care">Secondary Care</option>
-                                    <option value="Shared Care Record">Shared Care Record</option>
-                                    <option value="Social Care">Social Care</option>
-                                    <option value="Urgent Treatment Centre (UTC)">Urgent Treatment Centre (UTC)</option>
-                                    <option value="Walk In Centre">Walk In Centre</option>
-                                </select>
+        <div class="nhsuk-width-container">
+            <main class="nhsuk-main-wrapper" id="maincontent">
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card">
+                            <div class="nhsuk-card__content">
+                                <h3 class="nhsuk-card__heading">Step 4 - Signup Process</h3>
+                                <p class="nhsuk-card__description">We would like to capture some details about the care settings.</p>
+                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="nhsuk-grid-row">
-                <div class="nhsuk-grid-column-full">
-                    <div class="nhsuk-action-link">
-                        <a class="nhsuk-action-link__link" href="/step-5">
-                            <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
-                                <path d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
-                            </svg>
-                            <span class="nhsuk-action-link__text">Continue</span>
-                        </a>
+
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card nhsuk-card--feature">
+                            <div class="nhsuk-card__content nhsuk-card__content--feature">
+                                <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                    Care Settings
+                                </h2>
+                                <div class="nhsuk-form-group">
+                                    <div class="nhsuk-hint" id="input-care-setting-with-hint-text-hint">* Please indicate the care setting for this agreement</div>
+                                    <select class="nhsuk-select" id="input-care-setting" name="careSetting">
+                                        <option value=""></option>
+                                        <option {% if visited.careSetting === 'A&E' %} selected {% endif %} value="A&E">A&amp;E</option>
+                                        <option {% if visited.careSetting === 'Community Provider' %} selected {% endif %} value="Community Provider">Community Provider</option>
+                                        <option {% if visited.careSetting === 'Demonstrative' %} selected {% endif %} value="Demonstrative">Demonstrative</option>
+                                        <option {% if visited.careSetting === 'Dental Practice' %} selected {% endif %} value="Dental Practice">Dental Practice</option>
+                                        <option {% if visited.careSetting === 'Extended Access Hub' %} selected {% endif %} value="Extended Access Hub">Extended Access Hub</option>
+                                        <option {% if visited.careSetting === 'General Practice' %} selected {% endif %} value="General Practice">General Practice</option>
+                                        <option {% if visited.careSetting === 'Hub (other)' %} selected {% endif %} value="Hub (other)">Hub (other)</option>
+                                        <option {% if visited.careSetting === 'Minor Injuries Unit (MIU)' %} selected {% endif %} value="Minor Injuries Unit (MIU)">Minor Injuries Unit (MIU)</option>
+                                        <option {% if visited.careSetting === 'NHS 111' %} selected {% endif %} value="NHS 111">NHS 111</option>
+                                        <option {% if visited.careSetting === 'Online Consultation' %} selected {% endif %} value="Online Consultation">Online Consultation</option>
+                                        <option {% if visited.careSetting === 'Optometry' %} selected {% endif %} value="Optometry">Optometry</option>
+                                        <option {% if visited.careSetting === 'Pharmacy' %} selected {% endif %} value="Pharmacy">Pharmacy</option>
+                                        <option {% if visited.careSetting === 'Primary Care Network' %} selected {% endif %} value="Primary Care Network">Primary Care Network</option>
+                                        <option {% if visited.careSetting === 'Remote Consultation' %} selected {% endif %} value="Remote Consultation">Remote Consultation</option>
+                                        <option {% if visited.careSetting === 'Secondary Care' %} selected {% endif %} value="Secondary Care">Secondary Care</option>
+                                        <option {% if visited.careSetting === 'Shared Care Record' %} selected {% endif %} value="Shared Care Record">Shared Care Record</option>
+                                        <option {% if visited.careSetting === 'Social Care' %} selected {% endif %} value="Social Care">Social Care</option>
+                                        <option {% if visited.careSetting === 'Urgent Treatment Centre (UTC)' %} selected {% endif %} value="Urgent Treatment Centre (UTC)">Urgent Treatment Centre (UTC)</option>
+                                        <option {% if visited.careSetting === 'Walk In Centre' %} selected {% endif %} value="Walk In Centre">Walk In Centre</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </main>
-    </div>
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
     {% endblock %}
 
     {% block footer %}
