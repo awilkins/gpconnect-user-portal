@@ -65,6 +65,8 @@ const visited = {
     agreeAgreement: ''
 };
 
+const notCompletedArray = [];
+
 const enabledProgressBookmarks = {
     step1: true,
     step2: false,
@@ -76,134 +78,10 @@ const enabledProgressBookmarks = {
     review: false
 }
 
-app.get("/start", (req, res) => {
-    res.render("start", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-});
+function resetFormFields() {
 
-app.get("/step-1", (req, res) => {
-    if (enabledProgressBookmarks.step1) {
-        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
+    notCompletedArray.length = 0;
 
-app.get("/step-2", (req, res) => {
-    if (enabledProgressBookmarks.step2) {
-        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/step-3", (req, res) => {
-    if (enabledProgressBookmarks.step3) {
-        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/step-4", (req, res) => {
-    if (enabledProgressBookmarks.step4) {
-        careSetting = visited.careSetting;
-        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/step-5", (req, res) => {
-    if (enabledProgressBookmarks.step5) {
-        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/step-6", (req, res) => {
-    if (enabledProgressBookmarks.step6) {
-        res.render("step-6", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/step-7", (req, res) => {
-    if (enabledProgressBookmarks.step6) {
-        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.get("/review", (req, res) => {
-    if (enabledProgressBookmarks.review) {
-        res.render("review", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks });
-    }
-    else {
-        res.redirect("/index");
-    }
-});
-
-app.post("/step-1", (req, res) => {
-    visited.organisationName = req.body.organisationName;
-    visited.organisationBuilding = req.body.organisationBuilding;
-    visited.organisationStreet = req.body.organisationStreet;
-    visited.organisationTown = req.body.organisationTown;
-    visited.organisationPostcode = req.body.organisationPostcode;
-    enabledProgressBookmarks.step2 = true;
-    res.redirect("/step-2");
-});
-
-app.post("/step-2", function (req, res) {
-    visited.supplierName = req.body.supplierName;
-    visited.productName = req.body.productName;
-    visited.versionNumber = req.body.versionNumber;
-    enabledProgressBookmarks.step3 = true;
-    res.redirect("/step-3");
-});
-
-app.post("/step-3", function (req, res) {
-    visited.signatoryName = req.body.signatoryName;
-    visited.signatoryJobTitle = req.body.signatoryJobTitle;
-    visited.signatoryEmail = req.body.signatoryEmail;
-    visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration;
-    enabledProgressBookmarks.step4 = true;
-    res.redirect("/step-4");
-});
-
-app.post("/step-4", function (req, res) {
-    visited.careSetting = req.body.careSetting;
-    enabledProgressBookmarks.step5 = true;
-    res.redirect("/step-5");
-});
-
-app.post("/step-5", function (req, res) {
-    visited.reasonAgreement = req.body.reasonAgreement;
-    enabledProgressBookmarks.step6 = true;
-    res.redirect("/step-6");
-});
-
-app.post("/step-6", function (req, res) {
-    enabledProgressBookmarks.step7 = true;
-    res.redirect("/step-7");
-});
-
-app.post("/step-7", function (req, res) {
-    visited.agreeAgreement = req.body.agreeAgreement;
-    enabledProgressBookmarks.review = true;
-    res.redirect("/review");
-});
-
-app.post("/review", function (req, res) {
     visited.organisationName = '';
     visited.organisationBuilding = '';
     visited.organisationStreet = '';
@@ -220,7 +98,6 @@ app.post("/review", function (req, res) {
     visited.reasonAgreement = '';
     visited.agreeAgreement = '';
 
-    enabledProgressBookmarks.step1 = false;
     enabledProgressBookmarks.step2 = false;
     enabledProgressBookmarks.step3 = false;
     enabledProgressBookmarks.step4 = false;
@@ -228,6 +105,188 @@ app.post("/review", function (req, res) {
     enabledProgressBookmarks.step6 = false;
     enabledProgressBookmarks.step7 = false;
     enabledProgressBookmarks.review = false;
+}
+
+app.get("/step-1", (req, res) => {
+    resetFormFields();
+    if (enabledProgressBookmarks.step1) {
+        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-2", (req, res) => {
+    if (enabledProgressBookmarks.step2) {
+        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-3", (req, res) => {
+    if (enabledProgressBookmarks.step3) {
+        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-4", (req, res) => {
+    if (enabledProgressBookmarks.step4) {
+        careSetting = visited.careSetting;
+        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-5", (req, res) => {
+    if (enabledProgressBookmarks.step5) {
+        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-6", (req, res) => {
+    if (enabledProgressBookmarks.step6) {
+        res.render("step-6", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/step-7", (req, res) => {
+    if (enabledProgressBookmarks.step6) {
+        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.get("/review", (req, res) => {
+    if (enabledProgressBookmarks.review) {
+        res.render("review", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("/index");
+    }
+});
+
+app.post("/step-1", (req, res) => {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
+    if (req.body.organisationBuilding === '') { notCompletedArray.push('organisationBuilding') } else { visited.organisationBuilding = req.body.organisationBuilding };
+    if (req.body.organisationStreet === '') { notCompletedArray.push('organisationStreet') } else { visited.organisationStreet = req.body.organisationStreet };
+    if (req.body.organisationTown === '') { notCompletedArray.push('organisationTown') } else { visited.organisationTown = req.body.organisationTown };
+    if (req.body.organisationPostcode === '') { notCompletedArray.push('organisationPostcode') } else { visited.organisationPostcode = req.body.organisationPostcode };
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.step2 = true;
+        res.redirect("/step-2");
+    }
+    else {
+        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }    
+});
+
+app.post("/step-2", function (req, res) {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
+    if (req.body.productName === '') { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
+    if (req.body.versionNumber === '') { notCompletedArray.push('versionNumber') } else { visited.versionNumber = req.body.versionNumber };
+
+    if (notCompletedArray.length == 0) { 
+        enabledProgressBookmarks.step3 = true;
+        res.redirect("/step-3");
+    }
+    else {
+        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/step-3", function (req, res) {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.signatoryName === '') { notCompletedArray.push('signatoryName') } else { visited.signatoryName = req.body.signatoryName };
+    if (req.body.signatoryJobTitle === '') { notCompletedArray.push('signatoryJobTitle') } else { visited.signatoryJobTitle = req.body.signatoryJobTitle };
+    if (req.body.signatoryEmail === '') { notCompletedArray.push('signatoryEmail') } else { visited.signatoryEmail = req.body.signatoryEmail };
+    if (req.body.signatoryProxyDeclaration === '') { notCompletedArray.push('signatoryProxyDeclaration') } else { visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration };
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.step4 = true;
+        res.redirect("/step-4");
+    }
+    else {
+        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/step-4", function (req, res) {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.careSetting === '') { notCompletedArray.push('careSetting') } else { visited.careSetting = req.body.careSetting };
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.step5 = true;
+        res.redirect("/step-5");
+    }
+    else {
+        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/step-5", function (req, res) {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.reasonAgreement === '') { notCompletedArray.push('reasonAgreement') } else { visited.reasonAgreement = req.body.reasonAgreement };
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.step6 = true;
+        res.redirect("/step-6");
+    }
+    else {
+        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/step-6", function (req, res) {
+    enabledProgressBookmarks.step7 = true;
+    res.redirect("/step-7");
+});
+
+app.post("/step-7", function (req, res) {
+
+    notCompletedArray.length = 0;
+
+    if (req.body.agreeAgreement === '') { notCompletedArray.push('agreeAgreement') } else { visited.agreeAgreement = req.body.agreeAgreement };
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.review = true;
+        res.redirect("/review");
+    }
+    else {
+        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/review", function (req, res) {
+    resetFormFields();
     res.redirect("/thankyou");
 });
 

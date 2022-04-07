@@ -41,10 +41,17 @@
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
                                     Your Organisation's Details
                                 </h2>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'organisationName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-organisation-name">Organisation Name</label>
                                     <div class="nhsuk-hint" id="input-organisation-name-with-hint-text-hint">* Enter the name of your organisation</div>
-                                    <input class="nhsuk-input" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
+
+                                    {% if 'organisationName' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-organisation-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Organisation Name
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'organisationName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
                                 </div>
                                 <fieldset class="nhsuk-fieldset">
                                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
@@ -52,21 +59,45 @@
                                             Organisation Address
                                         </h1>
                                     </legend>
-                                    <div class="nhsuk-form-group">
+                                    <div class="nhsuk-form-group{% if 'organisationBuilding' in notCompletedArray %} nhsuk-form-group--error {% endif %}{% if 'organisationStreet' in notCompletedArray %} nhsuk-form-group--error {% endif %}">
                                         <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
                                         <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
-                                        <input class="nhsuk-input" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
-                                        <input class="nhsuk-input" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
+
+                                        {% if 'organisationBuilding' in notCompletedArray %}
+                                        <span class="nhsuk-error-message" id="input-organisation-building-with-error">
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Building
+                                        </span>
+                                        {% endif %}
+
+                                        <input class="nhsuk-input{% if 'organisationBuilding' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
+
+                                        {% if 'organisationStreet' in notCompletedArray %}
+                                        <span class="nhsuk-error-message" id="input-organisation-street-with-error">
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Street
+                                        </span>
+                                        {% endif %}
+
+                                        <input class="nhsuk-input{% if 'organisationStreet' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
                                     </div>
-                                    <div class="nhsuk-form-group">
+                                    <div class="nhsuk-form-group{% if 'organisationTown' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                         <label class="nhsuk-label" for="input-organisation-town">Town or City</label>
                                         <div class="nhsuk-hint" id="input-organisation-town-with-hint-text-hint">* Enter the town or city part of your organisation's address</div>
-                                        <input class="nhsuk-input" id="input-organisation-town" name="organisationTown" type="text" aria-describedby="input-organisation-town-with-hint-text-hint" value="{{ visited.organisationTown }}">
+                                        {% if 'organisationTown' in notCompletedArray %}
+                                        <span class="nhsuk-error-message" id="input-organisation-town-with-error">
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Town or City
+                                        </span>
+                                        {% endif %}
+                                        <input class="nhsuk-input{% if 'organisationTown' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-town" name="organisationTown" type="text" aria-describedby="input-organisation-town-with-hint-text-hint" value="{{ visited.organisationTown }}">
                                     </div>
-                                    <div class="nhsuk-form-group">
+                                    <div class="nhsuk-form-group{% if 'organisationPostcode' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                         <label class="nhsuk-label" for="input-organisation-postcode">Postcode</label>
                                         <div class="nhsuk-hint" id="input-organisation-postcode-with-hint-text-hint">* Enter the postcode of your organisation's address</div>
-                                        <input class="nhsuk-input" id="input-organisation-postcode" name="organisationPostcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint" value="{{ visited.organisationPostcode }}">
+                                        {% if 'organisationTown' in notCompletedArray %}
+                                        <span class="nhsuk-error-message" id="input-organisation-postcode-with-error">
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Postcode
+                                        </span>
+                                        {% endif %}
+                                        <input class="nhsuk-input{% if 'organisationPostcode' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-postcode" name="organisationPostcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint" value="{{ visited.organisationPostcode }}">
                                     </div>
                                 </fieldset>
                             </div>
@@ -74,7 +105,7 @@
                     </div>
                 </div>
                 <div class="nhsuk-grid-row">
-                    <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-grid-column-one-half">
                         <button class="nhsuk-button nhsuk-button--primary">Continue</button>
                     </div>
                 </div>

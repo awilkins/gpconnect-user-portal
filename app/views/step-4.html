@@ -39,11 +39,18 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Care Settings
+                                    Care Setting
                                 </h2>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'careSetting' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <div class="nhsuk-hint" id="input-care-setting-with-hint-text-hint">* Please indicate the care setting for this agreement</div>
-                                    <select class="nhsuk-select" id="input-care-setting" name="careSetting">
+
+                                    {% if 'careSetting' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-signatory-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Care Setting
+                                    </span>
+                                    {% endif %}
+
+                                    <select class="nhsuk-select{% if 'careSetting' in notCompletedArray %} nhsuk-select--error{% endif %}" id="input-care-setting" name="careSetting">
                                         <option value=""></option>
                                         <option {% if visited.careSetting === 'A&E' %} selected {% endif %} value="A&E">A&amp;E</option>
                                         <option {% if visited.careSetting === 'Community Provider' %} selected {% endif %} value="Community Provider">Community Provider</option>

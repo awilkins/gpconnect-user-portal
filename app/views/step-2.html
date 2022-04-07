@@ -42,20 +42,41 @@
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
                                     Supplier and Product Details
                                 </h2>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'supplierName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-supplier-name">Supplier Name</label>
                                     <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">* The name of the supplier of the product</div>
-                                    <input class="nhsuk-input" id="input-supplier-name" name="supplierName" type="text" aria-describedby="input-supplier-name-with-hint-text-hint" value="{{ visited.supplierName }}">
+
+                                    {% if 'supplierName' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-supplier-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Supplier Name
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'supplierName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-supplier-name" name="supplierName" type="text" aria-describedby="input-supplier-name-with-hint-text-hint" value="{{ visited.supplierName }}">
                                 </div>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'productName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-product-name">Product Name</label>
                                     <div class="nhsuk-hint" id="input-product-name-with-hint-text-hint">* The name of the product</div>
-                                    <input class="nhsuk-input" id="input-product-name" name="productName" type="text" aria-describedby="input-product-name-with-hint-text-hint" value="{{ visited.productName }}">
+
+                                    {% if 'productName' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-product-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Product Name
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'productName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-product-name" name="productName" type="text" aria-describedby="input-product-name-with-hint-text-hint" value="{{ visited.productName }}">
                                 </div>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'versionNumber' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-version-number">Release/Version Number</label>
                                     <div class="nhsuk-hint" id="input-version-number-with-hint-text-hint">* The release/version number of the product</div>
-                                    <input class="nhsuk-input" id="input-version-number" name="versionNumber" type="text" aria-describedby="input-version-number-with-hint-text-hint" value="{{ visited.versionNumber }}">
+
+                                    {% if 'versionNumber' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-version-number-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Release/Version Number
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'versionNumber' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-version-number" name="versionNumber" type="text" aria-describedby="input-version-number-with-hint-text-hint" value="{{ visited.versionNumber }}">
                                 </div>
                             </div>
                         </div>

@@ -42,11 +42,18 @@
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
                                     Reason for the Agreement
                                 </h2>
-                                <div class="nhsuk-form-group">
+                                <div class="nhsuk-form-group{% if 'reasonAgreement' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <div class="nhsuk-hint" id="input-reason-agreement-hint">
                                         * Please be as descriptive as you can possibly be without going into specific detail
                                     </div>
-                                    <textarea class="nhsuk-textarea" id="input-reason-agreement" name="reasonAgreement" rows="3" aria-describedby="input-reason-agreement-hint">{{ visited.reasonAgreement }}</textarea>
+
+                                    {% if 'reasonAgreement' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-signatory-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Reason for the Agreement
+                                    </span>
+                                    {% endif %}
+
+                                    <textarea class="nhsuk-textarea {% if 'reasonAgreement' in notCompletedArray %} nhsuk-textarea--error{% endif %}" id="input-reason-agreement" name="reasonAgreement" rows="2" aria-describedby="input-reason-agreement-hint">{{ visited.reasonAgreement }}</textarea>
                                 </div>
                             </div>
                         </div>
