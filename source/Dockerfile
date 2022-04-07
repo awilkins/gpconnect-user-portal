@@ -14,14 +14,20 @@ COPY gpconnect-user-portal.Helpers/*.csproj ./gpconnect-user-portal.Helpers/
 COPY gpconnect-user-portal.Resources/*.csproj ./gpconnect-user-portal.Resources/
 COPY gpconnect-user-portal.Services/*.csproj ./gpconnect-user-portal.Services/
 COPY gpconnect-user-portal/*.csproj ./gpconnect-user-portal/
+COPY gpconnect-user-portal.UnitTests/*.csproj ./gpconnect-user-portal.UnitTests/
 
 RUN dotnet restore
 COPY . .
-WORKDIR /src
-RUN dotnet build -c Debug -o /app/build
+RUN dotnet build -c Debug
+
+FROM build AS test
+RUN dotnet test --no-build --logger trx -r test-results || true
+
+FROM scratch as export-test-results
+COPY --from=test /src/test-results/*.trx ./
 
 FROM build AS publish
-RUN dotnet publish -c Debug -o /app/publish
+RUN dotnet publish --no-restore -o /app/publish
 
 FROM base AS final
 WORKDIR /app

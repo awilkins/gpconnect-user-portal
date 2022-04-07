@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gpconnect-user-portal.Resou
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gpconnect-user-portal.Console", "gpconnect-user-portal.Console\gpconnect-user-portal.Console.csproj", "{9619D16B-4C3A-4682-B290-980367C7389C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gpconnect-user-portal.UnitTests", "gpconnect-user-portal.UnitTests\gpconnect-user-portal.UnitTests.csproj", "{52554370-B2AB-4B94-96A1-7C46EF5EACC4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{9619D16B-4C3A-4682-B290-980367C7389C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9619D16B-4C3A-4682-B290-980367C7389C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9619D16B-4C3A-4682-B290-980367C7389C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52554370-B2AB-4B94-96A1-7C46EF5EACC4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52554370-B2AB-4B94-96A1-7C46EF5EACC4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52554370-B2AB-4B94-96A1-7C46EF5EACC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52554370-B2AB-4B94-96A1-7C46EF5EACC4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
