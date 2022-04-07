@@ -21,8 +21,12 @@ jobs:
       run: cd source && docker build . --target export-test-results --file Dockerfile --output type=local,dest=test-results
 
     - name: List files
-      run: ls -la
-      
+      run: ls -la source
+
+    - name: List files
+      run: ls -la source/test-results
+
+
     - name: Publish Test results
       uses: dorny/test-reporter@v1
       if: success() || failure()    # run this step even if previous step failed
