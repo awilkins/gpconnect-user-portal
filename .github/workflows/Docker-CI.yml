@@ -18,7 +18,7 @@ jobs:
       run: cd source && docker build . --file Dockerfile --tag ndsp-test:$(date +%s)
 
     - name: Run Unit Tests and extract results
-      run: cd source && docker build --target export-test-results --output type=local,dest=test-results
+      run: cd source && docker build . --target export-test-results --file Dockerfile --output type=local,dest=test-results
 
     - name: Publish Test results
       uses: dorny/test-reporter@v1
