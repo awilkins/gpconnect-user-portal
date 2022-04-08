@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block header %}
+    {% include "includes/header-servicename.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    <form action="/email-address-page" method="POST">
+        <div class="nhsuk-width-container">
+            <main class="nhsuk-main-wrapper" id="maincontent">
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card">
+                            <div class="nhsuk-card__content">
+                                <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
+                                <p class="nhsuk-card__description">We would like to capture some details about your organisation. Don't worry - we won't use the details other than for the purpose of verifying your registration.</p>
+                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card nhsuk-card--feature">
+                            <div class="nhsuk-card__content nhsuk-card__content--feature">
+                                <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                    Recipients Details
+                                </h2>
+                                <div class="nhsuk-form-group">
+                                    <label class="nhsuk-label" for="input-first-name">First Name</label>
+                                    <div class="nhsuk-hint" id="input-first-name-with-hint-text-hint"> Enter the first name of the recipient</div>
+                                    <input class="nhsuk-input" id="input-first-name" name="firstName" type="text" aria-describedby="input-first-name-with-hint-text-hint">
+                                </div>
+                                <div class="nhsuk-form-group">
+                                    <label class="nhsuk-label" for="input-email-address">Email Address</label>
+                                    <div class="nhsuk-hint" id="input-email-address-with-hint-text-hint"> Enter the email address of the recipient</div>
+                                    <input class="nhsuk-input" id="input-email-address" name="emailAddress" type="text" aria-describedby="input-email-address-with-hint-text-hint">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-one-half">
+                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
+    {% endblock %}
+
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock %}
+</body>
+</html>
