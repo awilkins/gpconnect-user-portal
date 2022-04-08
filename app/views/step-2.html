@@ -59,7 +59,7 @@
                                             Organisation Address
                                         </h1>
                                     </legend>
-                                    <div class="nhsuk-form-group{% if 'organisationBuilding' in notCompletedArray %} nhsuk-form-group--error {% endif %}{% if 'organisationStreet' in notCompletedArray %} nhsuk-form-group--error {% endif %}">
+                                    <div class="nhsuk-form-group{% if 'organisationBuilding' in notCompletedArray %} nhsuk-form-group--error {% endif %}">
                                         <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
                                         <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
 
@@ -71,13 +71,7 @@
 
                                         <input class="nhsuk-input{% if 'organisationBuilding' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
 
-                                        {% if 'organisationStreet' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-street-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Street
-                                        </span>
-                                        {% endif %}
-
-                                        <input class="nhsuk-input{% if 'organisationStreet' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
+                                        <input class="nhsuk-input" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
                                     </div>
                                     <div class="nhsuk-form-group{% if 'organisationTown' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                         <label class="nhsuk-label" for="input-organisation-town">Town or City</label>

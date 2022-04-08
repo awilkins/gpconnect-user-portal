@@ -185,8 +185,6 @@ app.post("/step-1", function (req, res) {
     if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
     if (req.body.productName === '' || req.body.productName == null) { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
 
-    console.log(visited.productName);
-
     if (notCompletedArray.length == 0) {
         enabledProgressBookmarks.step2 = true;
         res.redirect("/step-2");
@@ -202,7 +200,7 @@ app.post("/step-2", (req, res) => {
 
     if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
     if (req.body.organisationBuilding === '') { notCompletedArray.push('organisationBuilding') } else { visited.organisationBuilding = req.body.organisationBuilding };
-    if (req.body.organisationStreet === '') { notCompletedArray.push('organisationStreet') } else { visited.organisationStreet = req.body.organisationStreet };
+    visited.organisationStreet = req.body.organisationStreet;
     if (req.body.organisationTown === '') { notCompletedArray.push('organisationTown') } else { visited.organisationTown = req.body.organisationTown };
     if (req.body.organisationPostcode === '') { notCompletedArray.push('organisationPostcode') } else { visited.organisationPostcode = req.body.organisationPostcode };
 
