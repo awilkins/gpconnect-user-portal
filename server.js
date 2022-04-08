@@ -55,7 +55,6 @@ const visited = {
     organisationPostcode: '',
     supplierName: '',
     productName: '',
-    versionNumber: '',
     signatoryName: '',
     signatoryJobTitle: '',
     signatoryEmail: '',
@@ -89,7 +88,6 @@ function resetFormFields() {
     visited.organisationPostcode = '';
     visited.supplierName = '';
     visited.productName = '';
-    visited.versionNumber = '';
     visited.signatoryName = '';
     visited.signatoryJobTitle = '';
     visited.signatoryEmail = '';
@@ -98,6 +96,7 @@ function resetFormFields() {
     visited.reasonAgreement = '';
     visited.agreeAgreement = '';
 
+    enabledProgressBookmarks.step1 = true;
     enabledProgressBookmarks.step2 = false;
     enabledProgressBookmarks.step3 = false;
     enabledProgressBookmarks.step4 = false;
@@ -108,7 +107,6 @@ function resetFormFields() {
 }
 
 app.get("/step-1", (req, res) => {
-    resetFormFields();
     if (enabledProgressBookmarks.step1) {
         res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
@@ -181,7 +179,24 @@ app.get("/review", (req, res) => {
     }
 });
 
-app.post("/step-1", (req, res) => {
+app.post("/step-1", function (req, res) {
+
+    notCompletedArray.length = 0;
+    if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
+    if (req.body.productName === '' || req.body.productName == null) { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
+
+    console.log(visited.productName);
+
+    if (notCompletedArray.length == 0) {
+        enabledProgressBookmarks.step2 = true;
+        res.redirect("/step-2");
+    }
+    else {
+        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+});
+
+app.post("/step-2", (req, res) => {
 
     notCompletedArray.length = 0;
 
@@ -192,29 +207,12 @@ app.post("/step-1", (req, res) => {
     if (req.body.organisationPostcode === '') { notCompletedArray.push('organisationPostcode') } else { visited.organisationPostcode = req.body.organisationPostcode };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step2 = true;
-        res.redirect("/step-2");
-    }
-    else {
-        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
-    }    
-});
-
-app.post("/step-2", function (req, res) {
-
-    notCompletedArray.length = 0;
-
-    if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
-    if (req.body.productName === '') { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
-    if (req.body.versionNumber === '') { notCompletedArray.push('versionNumber') } else { visited.versionNumber = req.body.versionNumber };
-
-    if (notCompletedArray.length == 0) { 
         enabledProgressBookmarks.step3 = true;
         res.redirect("/step-3");
     }
     else {
         res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
-    }
+    }    
 });
 
 app.post("/step-3", function (req, res) {
@@ -409,6 +407,7 @@ app.locals.useCookieSessionStore = (useCookieSessionStore === 'true')
 app.locals.promoMode = promoMode
 app.locals.releaseVersion = 'v' + releaseVersion
 app.locals.serviceName = config.serviceName
+app.locals.pageName = config.pageName
 // extensionConfig sets up variables used to add the scripts and stylesheets to each page.
 app.locals.extensionConfig = extensions.getAppConfig()
 

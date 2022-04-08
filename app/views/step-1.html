@@ -16,18 +16,18 @@
     {% endblock %}
 
     {% block content %}
-
     {% include "includes/breadcrumb.html" %}
 
     <form action="/step-1" method="POST">
+
         <div class="nhsuk-width-container">
             <main class="nhsuk-main-wrapper" id="maincontent">
                 <div class="nhsuk-grid-row">
                     <div class="nhsuk-grid-column-full">
                         <div class="nhsuk-card">
                             <div class="nhsuk-card__content">
-                                <h3 class="nhsuk-card__heading">Step 1 - Signup Process</h3>
-                                <p class="nhsuk-card__description">We would like to capture some details about your organisation. Don't worry - we won't use the details other than for the purpose of verifying your registration.</p>
+                                <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
+                                <p class="nhsuk-card__description">We would like to capture some details about the supplier and products.</p>
                                 <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
                             </div>
                         </div>
@@ -39,73 +39,114 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Your Organisation's Details
+                                    Supplier Name
                                 </h2>
-                                <div class="nhsuk-form-group{% if 'organisationName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                    <label class="nhsuk-label" for="input-organisation-name">Organisation Name</label>
-                                    <div class="nhsuk-hint" id="input-organisation-name-with-hint-text-hint">* Enter the name of your organisation</div>
+                                <div class="nhsuk-form-group{% if 'supplierName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">* Please select the supplier</div>
 
-                                    {% if 'organisationName' in notCompletedArray %}
-                                    <span class="nhsuk-error-message" id="input-organisation-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Organisation Name
+                                    {% if 'supplierName' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-supplier-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Supplier Name
                                     </span>
                                     {% endif %}
 
-                                    <input class="nhsuk-input{% if 'organisationName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
+                                    <select class="nhsuk-select{% if 'supplierName' in notCompletedArray %} nhsuk-select--error{% endif %}" id="input-supplier-name" name="supplierName">
+                                        <option value=""></option>
+                                        <option {% if visited.supplierName === 'Advanced' %} selected {% endif %} value="Advanced">Advanced</option>
+                                        <option {% if visited.supplierName === 'Appt Health (MW)' %} selected {% endif %} value="Appt Health (MW)">Appt Health (MW)</option>
+                                        <option {% if visited.supplierName === 'AT Tech' %} selected {% endif %} value="AT Tech">AT Tech</option>
+                                        <option {% if visited.supplierName === 'Cambridge' %} selected {% endif %} value="Cambridge">Cambridge</option>
+                                        <option {% if visited.supplierName === 'Care Banking' %} selected {% endif %} value="Care Banking">Care Banking</option>
+                                        <option {% if visited.supplierName === 'Cleric' %} selected {% endif %} value="Cleric">Cleric</option>
+                                        <option {% if visited.supplierName === 'Devon' %} selected {% endif %} value="Devon">Devon</option>
+                                        <option {% if visited.supplierName === 'DXC Lorenzo' %} selected {% endif %} value="DXC Lorenzo">DXC Lorenzo</option>
+                                        <option {% if visited.supplierName === 'EGTON MEDICAL INFORMATION SYSTEMS LTD (EMIS)' %} selected {% endif %} value="EGTON MEDICAL INFORMATION SYSTEMS LTD (EMIS)">EGTON MEDICAL INFORMATION SYSTEMS LTD (EMIS)</option>
+                                        <option {% if visited.supplierName === 'Eva' %} selected {% endif %} value="Eva">Eva</option>
+                                        <option {% if visited.supplierName === 'Everylife Technologies' %} selected {% endif %} value="Everylife Technologies">Everylife Technologies</option>
+                                        <option {% if visited.supplierName === 'HBS' %} selected {% endif %} value="HBS">HBS</option>
+                                        <option {% if visited.supplierName === 'Humber (Upstream/YHCR)' %} selected {% endif %} value="Humber (Upstream/YHCR)">Humber (Upstream/YHCR)</option>
+                                        <option {% if visited.supplierName === 'IC24' %} selected {% endif %} value="IC24">IC24</option>
+                                        <option {% if visited.supplierName === 'Intersystems' %} selected {% endif %} value="Intersystems">Intersystems</option>
+                                        <option {% if visited.supplierName === 'Leeds Teaching Hospital' %} selected {% endif %} value="Leeds Teaching Hospital">Leeds Teaching Hospital</option>
+                                        <option {% if visited.supplierName === 'Meddbase' %} selected {% endif %} value="Meddbase">Meddbase</option>
+                                        <option {% if visited.supplierName === 'Medloop' %} selected {% endif %} value="Medloop">Medloop</option>
+                                        <option {% if visited.supplierName === 'Medusa' %} selected {% endif %} value="Medusa">Medusa</option>
+                                        <option {% if visited.supplierName === 'MIS-ES' %} selected {% endif %} value="MIS-ES">MIS-ES</option>
+                                        <option {% if visited.supplierName === 'Nervecentre' %} selected {% endif %} value="Nervecentre">Nervecentre</option>
+                                        <option {% if visited.supplierName === 'North Lincs & Goole' %} selected {% endif %} value="North Lincs & Goole">North Lincs & Goole</option>
+                                        <option {% if visited.supplierName === 'Nourish' %} selected {% endif %} value="Nourish">Nourish</option>
+                                        <option {% if visited.supplierName === 'Person Centred Software (PCS)' %} selected {% endif %} value="Person Centred Software (PCS)">Person Centred Software (PCS)</option>
+                                        <option {% if visited.supplierName === 'Plymouth' %} selected {% endif %} value="Plymouth">Plymouth</option>
+                                        <option {% if visited.supplierName === 'Push Dr' %} selected {% endif %} value="Push Dr">Push Dr</option>
+                                        <option {% if visited.supplierName === 'Restart' %} selected {% endif %} value="Restart">Restart</option>
+                                        <option {% if visited.supplierName === 'Servelec' %} selected {% endif %} value="Servelec">Servelec</option>
+                                        <option {% if visited.supplierName === 'Sussex LHCR' %} selected {% endif %} value="Sussex LHCR">Sussex LHCR</option>
+                                        <option {% if visited.supplierName === 'Sussex Partnership Foundation Trust (SPFT)' %} selected {% endif %} value="Sussex Partnership Foundation Trust (SPFT)">Sussex Partnership Foundation Trust (SPFT)</option>
+                                        <option {% if visited.supplierName === 'The Phoenix Partnership Ltd' %} selected {% endif %} value="The Phoenix Partnership Ltd">The Phoenix Partnership Ltd</option>
+                                        <option {% if visited.supplierName === 'Vision' %} selected {% endif %} value="Vision">Vision</option>
+                                        <option {% if visited.supplierName === 'Yorkshire & Humber' %} selected {% endif %} value="Yorkshire & Humber">Yorkshire & Humber</option>
+                                    </select>
                                 </div>
-                                <fieldset class="nhsuk-fieldset">
-                                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
-                                        <h1 class="nhsuk-fieldset__heading">
-                                            Organisation Address
-                                        </h1>
-                                    </legend>
-                                    <div class="nhsuk-form-group{% if 'organisationBuilding' in notCompletedArray %} nhsuk-form-group--error {% endif %}{% if 'organisationStreet' in notCompletedArray %} nhsuk-form-group--error {% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
-                                        <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
-
-                                        {% if 'organisationBuilding' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-building-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Building
-                                        </span>
-                                        {% endif %}
-
-                                        <input class="nhsuk-input{% if 'organisationBuilding' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
-
-                                        {% if 'organisationStreet' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-street-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Street
-                                        </span>
-                                        {% endif %}
-
-                                        <input class="nhsuk-input{% if 'organisationStreet' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
-                                    </div>
-                                    <div class="nhsuk-form-group{% if 'organisationTown' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-town">Town or City</label>
-                                        <div class="nhsuk-hint" id="input-organisation-town-with-hint-text-hint">* Enter the town or city part of your organisation's address</div>
-                                        {% if 'organisationTown' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-town-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Town or City
-                                        </span>
-                                        {% endif %}
-                                        <input class="nhsuk-input{% if 'organisationTown' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-town" name="organisationTown" type="text" aria-describedby="input-organisation-town-with-hint-text-hint" value="{{ visited.organisationTown }}">
-                                    </div>
-                                    <div class="nhsuk-form-group{% if 'organisationPostcode' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-postcode">Postcode</label>
-                                        <div class="nhsuk-hint" id="input-organisation-postcode-with-hint-text-hint">* Enter the postcode of your organisation's address</div>
-                                        {% if 'organisationTown' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-postcode-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Postcode
-                                        </span>
-                                        {% endif %}
-                                        <input class="nhsuk-input{% if 'organisationPostcode' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-postcode" name="organisationPostcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint" value="{{ visited.organisationPostcode }}">
-                                    </div>
-                                </fieldset>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="nhsuk-grid-row">
-                    <div class="nhsuk-grid-column-one-half">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card nhsuk-card--feature">
+                            <div class="nhsuk-card__content nhsuk-card__content--feature">
+                                <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                    Products
+                                </h2>
+                                <div class="nhsuk-form-group{% if 'productName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <fieldset class="nhsuk-fieldset">
+                                        <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
+                                            * Select the GP Connect product(s) you wish to access
+                                        </legend>
+
+                                        {% if 'productName' in notCompletedArray %}
+                                        <span class="nhsuk-error-message" id="input-product-name-with-error">
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Product
+                                        </span>
+                                        {% endif %}
+
+                                        <div class="nhsuk-checkboxes">
+                                            <div class="nhsuk-checkboxes__item">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-html" name="productName" type="checkbox" value="accessRecordHtml" aria-describedby="nhsuk-access-record-html-hint">
+                                                <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-html">Access Record HTML</label>
+                                                <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-html-hint">
+                                                    <a href="#">What is Access Record HTML?</a>
+                                                </div>
+                                            </div>
+                                            <div class="nhsuk-checkboxes__item">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-1" name="productName" type="checkbox" value="accessRecordStructured1" aria-describedby="nhsuk-access-record-structured-1-hint">
+                                                <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-1">Access Record Structured v1</label>
+                                                <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-1-hint">
+                                                    <a href="#">What is Access Record Structured v1?</a>
+                                                </div>
+                                            </div>
+                                            <div class="nhsuk-checkboxes__item">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-2" name="productName" type="checkbox" value="accessRecordStructured2" aria-describedby="nhsuk-access-record-structured-2-hint">
+                                                <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-2">Access Record Structured v2</label>
+                                                <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-2-hint">
+                                                    <a href="#">What is Access Record Structured v2?</a>
+                                                </div>
+                                            </div>
+                                            <div class="nhsuk-checkboxes__item">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-appointments" name="productName" type="checkbox" value="accessRecordAppointments" aria-describedby="nhsuk-access-record-appointments-hint">
+                                                <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-appointments">Appointment Management</label><div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-appointments-hint">
+                                                    <a href="#">What is Appointment Management?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
                         <button class="nhsuk-button nhsuk-button--primary">Continue</button>
                     </div>
                 </div>
@@ -117,7 +158,5 @@
     {% block footer %}
     {% include "includes/footer.html" %}
     {% endblock %}
-
-
 </body>
 </html>
