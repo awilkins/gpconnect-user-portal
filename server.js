@@ -46,7 +46,6 @@ app.set("view engine", "ejs");
 
 app.use(express.json());
 
-
 const visited = {
     organisationName: '',
     organisationBuilding: '',

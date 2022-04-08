@@ -3,6 +3,7 @@ var NotifyClient = require('notifications-node-client').NotifyClient,
 
 const express = require('express')
 const router = express.Router()
+const moment = require('moment')
 
 router.post('/email-address-page', function (req, res)
 {
