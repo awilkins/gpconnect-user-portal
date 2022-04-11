@@ -46,7 +46,7 @@
 
                                     {% if 'supplierName' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-supplier-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Supplier Name
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Supplier Name
                                     </span>
                                     {% endif %}
 
@@ -108,32 +108,32 @@
                                         <span class="nhsuk-error-message" id="input-product-name-with-error">
                                             <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Product
                                         </span>
-                                        {% endif %}
+                                        {% endif %}                                        
 
                                         <div class="nhsuk-checkboxes">
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-html" name="productName" type="checkbox" value="Access Record HTML" aria-describedby="nhsuk-access-record-html-hint">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-html" name="productName" type="checkbox" value="Access Record HTML" aria-describedby="nhsuk-access-record-html-hint"{% if 'Access Record HTML' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-html">Access Record HTML</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-html-hint">
                                                     <a href="#">What is Access Record HTML?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-1" name="productName" type="checkbox" value="Access Record Structured v1" aria-describedby="nhsuk-access-record-structured-1-hint">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-1" name="productName" type="checkbox" value="Access Record Structured v1" aria-describedby="nhsuk-access-record-structured-1-hint"{% if 'Access Record Structured v1' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-1">Access Record Structured v1</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-1-hint">
                                                     <a href="#">What is Access Record Structured v1?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-2" name="productName" type="checkbox" value="Access Record Structured v2" aria-describedby="nhsuk-access-record-structured-2-hint">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-2" name="productName" type="checkbox" value="Access Record Structured v2" aria-describedby="nhsuk-access-record-structured-2-hint"{% if 'Access Record Structured v2' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-2">Access Record Structured v2</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-2-hint">
                                                     <a href="#">What is Access Record Structured v2?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-appointments" name="productName" type="checkbox" value="Appointment Management" aria-describedby="nhsuk-access-record-appointments-hint">
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-appointments" name="productName" type="checkbox" value="Appointment Management" aria-describedby="nhsuk-access-record-appointments-hint"{% if 'Appointment Management' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-appointments">Appointment Management</label><div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-appointments-hint">
                                                     <a href="#">What is Appointment Management?</a>
                                                 </div>

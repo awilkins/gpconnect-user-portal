@@ -46,6 +46,9 @@ app.set("view engine", "ejs");
 
 app.use(express.json());
 
+var NotifyClient = require('notifications-node-client').NotifyClient,
+    notify = new NotifyClient(process.env.NOTIFYAPIKEY);
+
 const visited = {
     organisationName: '',
     organisationBuilding: '',
@@ -178,6 +181,35 @@ app.get("/review", (req, res) => {
     }
 });
 
+app.post('/email-address-page', function (req, res) {
+    notify.sendEmail(
+        '6a5b377e-4763-4618-bd7b-7b31ac823849',
+        req.body.emailAddress,
+        {
+            personalisation:
+            {
+                firstName: req.body.firstName
+            }
+        }
+    );
+    res.redirect('/');
+});
+
+app.post("/review", function (req, res) {
+    notify.sendEmail(
+        '3d7b74db-98aa-4dab-8638-3af09c58f046',
+        visited.signatoryEmail,
+        {
+            personalisation:
+            {
+                fullName: visited.signatoryName
+            }
+        }
+    );
+    resetFormFields();
+    res.redirect("/thankyou");
+});
+
 app.post("/step-1", function (req, res) {
 
     notCompletedArray.length = 0;
@@ -278,11 +310,6 @@ app.post("/step-7", function (req, res) {
     else {
         res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
-});
-
-app.post("/review", function (req, res) {
-    resetFormFields();
-    res.redirect("/thankyou");
 });
 
 if (useV6) {
