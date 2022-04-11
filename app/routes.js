@@ -10,7 +10,12 @@ router.post('/email-address-page', function (req, res)
     notify.sendEmail(
         '6a5b377e-4763-4618-bd7b-7b31ac823849',
         req.body.emailAddress,
-        { personalisation: { firstName: req.body.firstName } }
+        {
+            personalisation:
+            {
+                firstName: req.body.firstName
+            }
+        }
     );
     res.redirect('/');
 });
