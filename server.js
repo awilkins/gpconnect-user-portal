@@ -10,15 +10,14 @@ const express = require('express')
 const nunjucks = require('nunjucks')
 const sessionInCookie = require('client-sessions')
 const sessionInMemory = require('express-session')
-const ejs = require("ejs");
 
 // Run before other code to make sure variables from .env are available
 dotenv.config()
 
 // Local dependencies
 const middleware = [
-  require('./lib/middleware/authentication/authentication.js'),
-  require('./lib/middleware/extensions/extensions.js')
+    require('./lib/middleware/authentication/authentication.js'),
+    require('./lib/middleware/extensions/extensions.js')
 ]
 const config = require('./app/config.js')
 const documentationRoutes = require('./docs/documentation_routes.js')
@@ -34,8 +33,8 @@ var v6App
 var v6Routes
 
 if (fs.existsSync('./app/v6/routes.js')) {
-  v6Routes = require('./app/v6/routes.js')
-  useV6 = true
+    v6Routes = require('./app/v6/routes.js')
+    useV6 = true
 }
 
 const app = express()
@@ -66,7 +65,25 @@ const visited = {
     agreeAgreement: ''
 };
 
+const search = {
+    providerCode: '',
+    providerName: '',
+    ccgCode: '',
+    ccgName: ''
+};
+
+const searchResultsCount = {
+    invalidCount: 0,
+    totalCount: 0,
+    hasHtmlView: 0,
+    hasStructured: 0,
+    hasAppointment: 0,
+    hasSendDocument: 0
+};
+
 const notCompletedArray = [];
+
+const searchResults = [];
 
 const enabledProgressBookmarks = {
     step1: true,
@@ -77,6 +94,13 @@ const enabledProgressBookmarks = {
     step6: false,
     step7: false,
     review: false
+}
+
+function resetSearchFields() {
+    search.ccgCode = '';
+    search.ccgName = '';
+    search.providerCode = '';
+    search.providerName = '';
 }
 
 function resetFormFields() {
@@ -181,6 +205,77 @@ app.get("/review", (req, res) => {
     }
 });
 
+app.get("/search", (req, res) => {
+    resetSearchFields();
+    res.render("search", { search: search });
+});
+
+app.post("/search", function (req, res) {
+    searchResults.length = 0;
+
+    var searchParameterCount = 0;
+    var filteredSites = null;
+
+    search.providerName = req.body.providerName;
+    search.providerCode = req.body.providerCode;
+    search.ccgCode = req.body.ccgCode;
+    search.ccgName = req.body.ccgName;
+
+    var sites = JSON.parse(fs.readFileSync('./app/data/sites.json', 'utf8'));
+
+    if (search.providerCode != '') {
+        search.providerCode.split(/[\s,]+/).forEach(searchValue => {
+            filteredSites = sites.filter(site => site.SiteODSCode && site.SiteODSCode.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
+            filteredSites.forEach(filteredSite => {
+                searchResults.push(filteredSite);
+            });
+        });
+        searchParameterCount += 1;
+    }
+
+    if (search.providerName != '')
+    {
+        search.providerName.split(/[,]+/).forEach(searchValue => {
+            console.log(searchValue.trim());
+            filteredSites = sites.filter(site => site.SiteName && site.SiteName.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
+            filteredSites.forEach(filteredSite => {
+                searchResults.push(filteredSite);
+            });
+        });
+        searchParameterCount += 1;
+    }
+
+    if (search.ccgCode != '') {
+        filteredSites = sites.filter(site => site.SelectedCCGOdsCode && site.SelectedCCGOdsCode.toUpperCase().indexOf(search.ccgCode.toUpperCase()) > -1);
+        filteredSites.forEach(filteredSite => {
+            searchResults.push(filteredSite);
+        });
+        searchParameterCount += 1;
+    }
+
+    if (search.ccgName != '') {
+        filteredSites = sites.filter(site => site.SelectedCCGName && site.SelectedCCGName.toUpperCase().indexOf(search.ccgName.toUpperCase()) > -1);
+        filteredSites.forEach(filteredSite => {
+            searchResults.push(filteredSite);
+        });
+        searchParameterCount += 1;
+    }
+
+    if ((searchParameterCount > 1) || (search.providerName.trim() === '' && search.providerCode.trim() === '' && search.ccgCode.trim() === '' && search.ccgName.trim() === '')) {
+        searchResultsCount.invalidCount = 1;
+        searchResultsCount.totalCount = 0;
+    }
+    else {        
+        searchResultsCount.invalidCount = 0;
+        searchResultsCount.totalCount = searchResults.length;
+        searchResultsCount.hasHtmlView = searchResults.filter(x => x.HasHtmlView).length;
+        searchResultsCount.hasStructured = searchResults.filter(x => x.HasStructured).length;
+        searchResultsCount.hasSendDocument = searchResults.filter(x => x.HasSendDocument).length;
+        searchResultsCount.hasAppointment = searchResults.filter(x => x.HasAppointment).length;
+    }
+    res.render("search", { search: search, searchResults: searchResults, searchResultsCount: searchResultsCount });
+});
+
 app.post('/email-address-page', function (req, res) {
     notify.sendEmail(
         '6a5b377e-4763-4618-bd7b-7b31ac823849',
@@ -211,7 +306,6 @@ app.post("/review", function (req, res) {
 });
 
 app.post("/step-1", function (req, res) {
-
     notCompletedArray.length = 0;
     if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
     if (req.body.productName === '' || req.body.productName == null) { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
@@ -225,8 +319,9 @@ app.post("/step-1", function (req, res) {
     }
 });
 
-app.post("/step-2", (req, res) => {
 
+
+app.post("/step-2", (req, res) => {
     notCompletedArray.length = 0;
 
     if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
@@ -241,7 +336,7 @@ app.post("/step-2", (req, res) => {
     }
     else {
         res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
-    }    
+    }
 });
 
 app.post("/step-3", function (req, res) {
@@ -313,8 +408,8 @@ app.post("/step-7", function (req, res) {
 });
 
 if (useV6) {
-  console.log('/app/v6/routes.js detected - using v6 compatibility mode')
-  v6App = express()
+    console.log('/app/v6/routes.js detected - using v6 compatibility mode')
+    v6App = express()
 }
 
 // Set up configuration variables
@@ -340,26 +435,26 @@ if (!useDocumentation) promoMode = 'false'
 // asking for username/password twice (for `http`, then `https`).
 var isSecure = (env === 'production' && useHttps === 'true')
 if (isSecure) {
-  app.use(utils.forceHttps)
-  app.set('trust proxy', 1) // needed for secure cookies on heroku
+    app.use(utils.forceHttps)
+    app.set('trust proxy', 1) // needed for secure cookies on heroku
 }
 
 middleware.forEach(func => app.use(func))
 
 // Set up App
 var appViews = extensions.getAppViews([
-  path.join(__dirname, '/app/views/'),
-  path.join(__dirname, '/lib/')
+    path.join(__dirname, '/app/views/'),
+    path.join(__dirname, '/lib/')
 ])
 
 var nunjucksConfig = {
-  autoescape: true,
-  noCache: true,
-  watch: false // We are now setting this to `false` (it's by default false anyway) as having it set to `true` for production was making the tests hang
+    autoescape: true,
+    noCache: true,
+    watch: false // We are now setting this to `false` (it's by default false anyway) as having it set to `true` for production was making the tests hang
 }
 
 if (env === 'development') {
-  nunjucksConfig.watch = true
+    nunjucksConfig.watch = true
 }
 
 nunjucksConfig.express = app
@@ -380,48 +475,48 @@ app.use('/node_modules/govuk-frontend', express.static(path.join(__dirname, '/no
 
 // Set up documentation app
 if (useDocumentation) {
-  var documentationViews = [
-    path.join(__dirname, '/node_modules/govuk-frontend/'),
-    path.join(__dirname, '/node_modules/govuk-frontend/components'),
-    path.join(__dirname, '/docs/views/'),
-    path.join(__dirname, '/lib/')
-  ]
+    var documentationViews = [
+        path.join(__dirname, '/node_modules/govuk-frontend/'),
+        path.join(__dirname, '/node_modules/govuk-frontend/components'),
+        path.join(__dirname, '/docs/views/'),
+        path.join(__dirname, '/lib/')
+    ]
 
-  nunjucksConfig.express = documentationApp
-  var nunjucksDocumentationEnv = nunjucks.configure(documentationViews, nunjucksConfig)
-  // Nunjucks filters
-  utils.addNunjucksFilters(nunjucksDocumentationEnv)
+    nunjucksConfig.express = documentationApp
+    var nunjucksDocumentationEnv = nunjucks.configure(documentationViews, nunjucksConfig)
+    // Nunjucks filters
+    utils.addNunjucksFilters(nunjucksDocumentationEnv)
 
-  // Set views engine
-  documentationApp.set('view engine', 'html')
+    // Set views engine
+    documentationApp.set('view engine', 'html')
 }
 
 // Support for parsing data in POSTs
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }))
 
 // Set up v6 app for backwards compatibility
 if (useV6) {
-  var v6Views = [
-    path.join(__dirname, '/node_modules/govuk_template_jinja/views/layouts'),
-    path.join(__dirname, '/app/v6/views/'),
-    path.join(__dirname, '/lib/v6') // for old unbranded template
-  ]
-  nunjucksConfig.express = v6App
-  var nunjucksV6Env = nunjucks.configure(v6Views, nunjucksConfig)
+    var v6Views = [
+        path.join(__dirname, '/node_modules/govuk_template_jinja/views/layouts'),
+        path.join(__dirname, '/app/v6/views/'),
+        path.join(__dirname, '/lib/v6') // for old unbranded template
+    ]
+    nunjucksConfig.express = v6App
+    var nunjucksV6Env = nunjucks.configure(v6Views, nunjucksConfig)
 
-  // Nunjucks filters
-  utils.addNunjucksFilters(nunjucksV6Env)
+    // Nunjucks filters
+    utils.addNunjucksFilters(nunjucksV6Env)
 
-  // Set views engine
-  v6App.set('view engine', 'html')
+    // Set views engine
+    v6App.set('view engine', 'html')
 
-  // Backward compatibility with GOV.UK Elements
-  app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_template_jinja/assets')))
-  app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit')))
-  app.use('/public/v6/javascripts/govuk/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit/javascripts/govuk/')))
+    // Backward compatibility with GOV.UK Elements
+    app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_template_jinja/assets')))
+    app.use('/public/v6/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit')))
+    app.use('/public/v6/javascripts/govuk/', express.static(path.join(__dirname, '/node_modules/govuk_frontend_toolkit/javascripts/govuk/')))
 }
 
 // Add variables that are available in all views
@@ -438,161 +533,161 @@ app.locals.extensionConfig = extensions.getAppConfig()
 // Session uses service name to avoid clashes with other prototypes
 const sessionName = 'govuk-prototype-kit-' + (Buffer.from(config.serviceName, 'utf8')).toString('hex')
 const sessionOptions = {
-  secret: sessionName,
-  cookie: {
-    maxAge: 1000 * 60 * 60 * 4, // 4 hours
-    secure: isSecure
-  }
+    secret: sessionName,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 4, // 4 hours
+        secure: isSecure
+    }
 }
 
 // Support session data in cookie or memory
 if (useCookieSessionStore === 'true') {
-  app.use(sessionInCookie(Object.assign(sessionOptions, {
-    cookieName: sessionName,
-    proxy: true,
-    requestKey: 'session'
-  })))
+    app.use(sessionInCookie(Object.assign(sessionOptions, {
+        cookieName: sessionName,
+        proxy: true,
+        requestKey: 'session'
+    })))
 } else {
-  app.use(sessionInMemory(Object.assign(sessionOptions, {
-    name: sessionName,
-    resave: false,
-    saveUninitialized: false
-  })))
+    app.use(sessionInMemory(Object.assign(sessionOptions, {
+        name: sessionName,
+        resave: false,
+        saveUninitialized: false
+    })))
 }
 
 // Automatically store all data users enter
 if (useAutoStoreData === 'true') {
-  app.use(utils.autoStoreData)
-  utils.addCheckedFunction(nunjucksAppEnv)
-  if (useDocumentation) {
-    utils.addCheckedFunction(nunjucksDocumentationEnv)
-  }
-  if (useV6) {
-    utils.addCheckedFunction(nunjucksV6Env)
-  }
+    app.use(utils.autoStoreData)
+    utils.addCheckedFunction(nunjucksAppEnv)
+    if (useDocumentation) {
+        utils.addCheckedFunction(nunjucksDocumentationEnv)
+    }
+    if (useV6) {
+        utils.addCheckedFunction(nunjucksV6Env)
+    }
 }
 
 // Clear all data in session if you open /prototype-admin/clear-data
 app.post('/prototype-admin/clear-data', function (req, res) {
-  req.session.data = {}
-  res.render('prototype-admin/clear-data-success')
+    req.session.data = {}
+    res.render('prototype-admin/clear-data-success')
 })
 
 // Redirect root to /docs when in promo mode.
 if (promoMode === 'true') {
-  console.log('Prototype Kit running in promo mode')
+    console.log('Prototype Kit running in promo mode')
 
-  app.get('/', function (req, res) {
-    res.redirect('/docs')
-  })
+    app.get('/', function (req, res) {
+        res.redirect('/docs')
+    })
 
-  // Allow search engines to index the Prototype Kit promo site
-  app.get('/robots.txt', function (req, res) {
-    res.type('text/plain')
-    res.send('User-agent: *\nAllow: /')
-  })
+    // Allow search engines to index the Prototype Kit promo site
+    app.get('/robots.txt', function (req, res) {
+        res.type('text/plain')
+        res.send('User-agent: *\nAllow: /')
+    })
 } else {
-  // Prevent search indexing
-  app.use(function (req, res, next) {
-    // Setting headers stops pages being indexed even if indexed pages link to them.
-    res.setHeader('X-Robots-Tag', 'noindex')
-    next()
-  })
+    // Prevent search indexing
+    app.use(function (req, res, next) {
+        // Setting headers stops pages being indexed even if indexed pages link to them.
+        res.setHeader('X-Robots-Tag', 'noindex')
+        next()
+    })
 
-  app.get('/robots.txt', function (req, res) {
-    res.type('text/plain')
-    res.send('User-agent: *\nDisallow: /')
-  })
+    app.get('/robots.txt', function (req, res) {
+        res.type('text/plain')
+        res.send('User-agent: *\nDisallow: /')
+    })
 }
 
 // Load routes (found in app/routes.js)
 if (typeof (routes) !== 'function') {
-  console.log(routes.bind)
-  console.log('Warning: the use of bind in routes is deprecated - please check the Prototype Kit documentation for writing routes.')
-  routes.bind(app)
+    console.log(routes.bind)
+    console.log('Warning: the use of bind in routes is deprecated - please check the Prototype Kit documentation for writing routes.')
+    routes.bind(app)
 } else {
-  app.use('/', routes)
+    app.use('/', routes)
 }
 
 if (useDocumentation) {
-  // Clone app locals to documentation app locals
-  // Use Object.assign to ensure app.locals is cloned to prevent additions from
-  // updating the original app.locals
-  documentationApp.locals = Object.assign({}, app.locals)
-  documentationApp.locals.serviceName = 'Prototype Kit'
+    // Clone app locals to documentation app locals
+    // Use Object.assign to ensure app.locals is cloned to prevent additions from
+    // updating the original app.locals
+    documentationApp.locals = Object.assign({}, app.locals)
+    documentationApp.locals.serviceName = 'Prototype Kit'
 
-  // Create separate router for docs
-  app.use('/docs', documentationApp)
+    // Create separate router for docs
+    app.use('/docs', documentationApp)
 
-  // Docs under the /docs namespace
-  documentationApp.use('/', documentationRoutes)
+    // Docs under the /docs namespace
+    documentationApp.use('/', documentationRoutes)
 }
 
 if (useV6) {
-  // Clone app locals to v6 app locals
-  v6App.locals = Object.assign({}, app.locals)
-  v6App.locals.asset_path = '/public/v6/'
+    // Clone app locals to v6 app locals
+    v6App.locals = Object.assign({}, app.locals)
+    v6App.locals.asset_path = '/public/v6/'
 
-  // Create separate router for v6
-  app.use('/', v6App)
+    // Create separate router for v6
+    app.use('/', v6App)
 
-  // Docs under the /docs namespace
-  v6App.use('/', v6Routes)
+    // Docs under the /docs namespace
+    v6App.use('/', v6Routes)
 }
 
 // Strip .html and .htm if provided
 app.get(/\.html?$/i, function (req, res) {
-  var path = req.path
-  var parts = path.split('.')
-  parts.pop()
-  path = parts.join('.')
-  res.redirect(path)
+    var path = req.path
+    var parts = path.split('.')
+    parts.pop()
+    path = parts.join('.')
+    res.redirect(path)
 })
 
 // Auto render any view that exists
 
 // App folder routes get priority
 app.get(/^([^.]+)$/, function (req, res, next) {
-  utils.matchRoutes(req, res, next)
+    utils.matchRoutes(req, res, next)
 })
 
 if (useDocumentation) {
-  // Documentation  routes
-  documentationApp.get(/^([^.]+)$/, function (req, res, next) {
-    if (!utils.matchMdRoutes(req, res)) {
-      utils.matchRoutes(req, res, next)
-    }
-  })
+    // Documentation  routes
+    documentationApp.get(/^([^.]+)$/, function (req, res, next) {
+        if (!utils.matchMdRoutes(req, res)) {
+            utils.matchRoutes(req, res, next)
+        }
+    })
 }
 
 if (useV6) {
-  // App folder routes get priority
-  v6App.get(/^([^.]+)$/, function (req, res, next) {
-    utils.matchRoutes(req, res, next)
-  })
+    // App folder routes get priority
+    v6App.get(/^([^.]+)$/, function (req, res, next) {
+        utils.matchRoutes(req, res, next)
+    })
 }
 
 // Redirect all POSTs to GETs - this allows users to use POST for autoStoreData
 app.post(/^\/([^.]+)$/, function (req, res) {
-  res.redirect(url.format({
-    pathname: '/' + req.params[0],
-    query: req.query
-  })
-  )
+    res.redirect(url.format({
+        pathname: '/' + req.params[0],
+        query: req.query
+    })
+    )
 })
 
 // Catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error(`Page not found: ${req.path}`)
-  err.status = 404
-  next(err)
+    var err = new Error(`Page not found: ${req.path}`)
+    err.status = 404
+    next(err)
 })
 
 // Display error
 app.use(function (err, req, res, next) {
-  console.error(err.message)
-  res.status(err.status || 500)
-  res.send(err.message)
+    console.error(err.message)
+    res.status(err.status || 500)
+    res.send(err.message)
 })
 
 console.log('\nGOV.UK Prototype Kit v' + releaseVersion)
