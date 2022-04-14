@@ -101,6 +101,12 @@ function resetSearchFields() {
     search.ccgName = '';
     search.providerCode = '';
     search.providerName = '';
+    searchResultsCount.invalidCount = 0;
+    searchResultsCount.totalCount = 0;
+    searchResultsCount.hasHtmlView = 0;
+    searchResultsCount.hasStructured = 0;
+    searchResultsCount.hasAppointment = 0;
+    searchResultsCount.hasSendDocument = 0;
 }
 
 function resetFormFields() {
@@ -211,68 +217,75 @@ app.get("/search", (req, res) => {
 });
 
 app.post("/search", function (req, res) {
+        
     searchResults.length = 0;
 
-    var searchParameterCount = 0;
-    var filteredSites = null;
+    switch (req.body.action) {
+        case 'clearall':
+            resetSearchFields();
+            break;
+        case 'getresults':
+            var searchParameterCount = 0;
+            var filteredSites = null;
 
-    search.providerName = req.body.providerName;
-    search.providerCode = req.body.providerCode;
-    search.ccgCode = req.body.ccgCode;
-    search.ccgName = req.body.ccgName;
+            search.providerName = req.body.providerName;
+            search.providerCode = req.body.providerCode;
+            search.ccgCode = req.body.ccgCode;
+            search.ccgName = req.body.ccgName;
 
-    var sites = JSON.parse(fs.readFileSync('./app/data/sites.json', 'utf8'));
+            var sites = JSON.parse(fs.readFileSync('./app/data/sites.json', 'utf8'));
 
-    if (search.providerCode != '') {
-        search.providerCode.split(/[\s,]+/).forEach(searchValue => {
-            filteredSites = sites.filter(site => site.SiteODSCode && site.SiteODSCode.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
-            filteredSites.forEach(filteredSite => {
-                searchResults.push(filteredSite);
-            });
-        });
-        searchParameterCount += 1;
+            if (search.providerCode.trim() != '') {
+                search.providerCode.split(/[\s,]+/).forEach(searchValue => {
+                    filteredSites = sites.filter(site => site.SiteODSCode && site.SiteODSCode.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
+                    filteredSites.forEach(filteredSite => {
+                        searchResults.push(filteredSite);
+                    });
+                });
+                searchParameterCount += 1;
+            }
+
+            if (search.providerName.trim() != '') {
+                search.providerName.split(/[,]+/).forEach(searchValue => {
+                    filteredSites = sites.filter(site => site.SiteName && site.SiteName.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
+                    filteredSites.forEach(filteredSite => {
+                        searchResults.push(filteredSite);
+                    });
+                });
+                searchParameterCount += 1;
+            }
+
+            if (search.ccgCode != '') {
+                filteredSites = sites.filter(site => site.SelectedCCGOdsCode && site.SelectedCCGOdsCode.toUpperCase().indexOf(search.ccgCode.toUpperCase()) > -1);
+                filteredSites.forEach(filteredSite => {
+                    searchResults.push(filteredSite);
+                });
+                searchParameterCount += 1;
+            }
+
+            if (search.ccgName != '') {
+                filteredSites = sites.filter(site => site.SelectedCCGName && site.SelectedCCGName.toUpperCase().indexOf(search.ccgName.toUpperCase()) > -1);
+                filteredSites.forEach(filteredSite => {
+                    searchResults.push(filteredSite);
+                });
+                searchParameterCount += 1;
+            }
+
+            if ((searchParameterCount > 1) || (search.providerName.trim() === '' && search.providerCode.trim() === '' && search.ccgCode.trim() === '' && search.ccgName.trim() === '')) {
+                searchResultsCount.invalidCount = 1;
+                searchResultsCount.totalCount = 0;
+            }
+            else {
+                searchResultsCount.invalidCount = 0;
+                searchResultsCount.totalCount = searchResults.length;
+                searchResultsCount.hasHtmlView = searchResults.filter(x => x.HasHtmlView).length;
+                searchResultsCount.hasStructured = searchResults.filter(x => x.HasStructured).length;
+                searchResultsCount.hasSendDocument = searchResults.filter(x => x.HasSendDocument).length;
+                searchResultsCount.hasAppointment = searchResults.filter(x => x.HasAppointment).length;
+            }
+            break;
     }
 
-    if (search.providerName != '')
-    {
-        search.providerName.split(/[,]+/).forEach(searchValue => {
-            console.log(searchValue.trim());
-            filteredSites = sites.filter(site => site.SiteName && site.SiteName.toUpperCase().indexOf(searchValue.trim().toUpperCase()) > -1);
-            filteredSites.forEach(filteredSite => {
-                searchResults.push(filteredSite);
-            });
-        });
-        searchParameterCount += 1;
-    }
-
-    if (search.ccgCode != '') {
-        filteredSites = sites.filter(site => site.SelectedCCGOdsCode && site.SelectedCCGOdsCode.toUpperCase().indexOf(search.ccgCode.toUpperCase()) > -1);
-        filteredSites.forEach(filteredSite => {
-            searchResults.push(filteredSite);
-        });
-        searchParameterCount += 1;
-    }
-
-    if (search.ccgName != '') {
-        filteredSites = sites.filter(site => site.SelectedCCGName && site.SelectedCCGName.toUpperCase().indexOf(search.ccgName.toUpperCase()) > -1);
-        filteredSites.forEach(filteredSite => {
-            searchResults.push(filteredSite);
-        });
-        searchParameterCount += 1;
-    }
-
-    if ((searchParameterCount > 1) || (search.providerName.trim() === '' && search.providerCode.trim() === '' && search.ccgCode.trim() === '' && search.ccgName.trim() === '')) {
-        searchResultsCount.invalidCount = 1;
-        searchResultsCount.totalCount = 0;
-    }
-    else {        
-        searchResultsCount.invalidCount = 0;
-        searchResultsCount.totalCount = searchResults.length;
-        searchResultsCount.hasHtmlView = searchResults.filter(x => x.HasHtmlView).length;
-        searchResultsCount.hasStructured = searchResults.filter(x => x.HasStructured).length;
-        searchResultsCount.hasSendDocument = searchResults.filter(x => x.HasSendDocument).length;
-        searchResultsCount.hasAppointment = searchResults.filter(x => x.HasAppointment).length;
-    }
     res.render("search", { search: search, searchResults: searchResults, searchResultsCount: searchResultsCount });
 });
 
