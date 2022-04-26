@@ -217,7 +217,7 @@ app.get("/search", (req, res) => {
 });
 
 app.post("/search", function (req, res) {
-        
+
     searchResults.length = 0;
 
     switch (req.body.action) {
@@ -290,8 +290,8 @@ app.post("/search", function (req, res) {
 });
 
 app.post('/email-address-page', function (req, res) {
-    try {
-        notify.sendEmail(
+    notify
+        .sendEmail(
             '6a5b377e-4763-4618-bd7b-7b31ac823849',
             req.body.emailAddress,
             {
@@ -300,14 +300,10 @@ app.post('/email-address-page', function (req, res) {
                     firstName: req.body.firstName
                 }
             }
-        );
-    }
-    catch (e) {
-        console.log("sending the email failed");
-    }
-    finally {
-        res.redirect('/');
-    }
+        )
+        .then(response => console.log(response))
+        .catch(err => console.error(err));
+    res.redirect('/');
 });
 
 app.post("/review", function (req, res) {
