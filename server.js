@@ -316,7 +316,8 @@ app.post("/review", function (req, res) {
                 fullName: visited.signatoryName
             }
         }
-    );
+    ).then(response => console.log(response))
+        .catch(err => console.error(err));
     resetFormFields();
     res.redirect("/thankyou");
 });
