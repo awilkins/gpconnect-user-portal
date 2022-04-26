@@ -290,17 +290,24 @@ app.post("/search", function (req, res) {
 });
 
 app.post('/email-address-page', function (req, res) {
-    notify.sendEmail(
-        '6a5b377e-4763-4618-bd7b-7b31ac823849',
-        req.body.emailAddress,
-        {
-            personalisation:
+    try {
+        notify.sendEmail(
+            '6a5b377e-4763-4618-bd7b-7b31ac823849',
+            req.body.emailAddress,
             {
-                firstName: req.body.firstName
+                personalisation:
+                {
+                    firstName: req.body.firstName
+                }
             }
-        }
-    );
-    res.redirect('/');
+        );
+    }
+    catch (e) {
+        console.log("sending the email failed");
+    }
+    finally {
+        res.redirect('/');
+    }
 });
 
 app.post("/review", function (req, res) {
