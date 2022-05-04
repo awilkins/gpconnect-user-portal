@@ -138,73 +138,78 @@ function resetFormFields() {
     enabledProgressBookmarks.review = false;
 }
 
-app.get("/step-1", (req, res) => {
+app.get("/", (req, res) => {
+    resetFormFields();
+    res.redirect("/versions/index");
+});
+
+app.get("/*/step-1", (req, res) => {
     if (enabledProgressBookmarks.step1) {
-        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-2", (req, res) => {
+app.get("/*/step-2", (req, res) => {
     if (enabledProgressBookmarks.step2) {
-        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-3", (req, res) => {
+app.get("/*/step-3", (req, res) => {
     if (enabledProgressBookmarks.step3) {
-        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-4", (req, res) => {
+app.get("/*/step-4", (req, res) => {
     if (enabledProgressBookmarks.step4) {
         careSetting = visited.careSetting;
-        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-5", (req, res) => {
+app.get("/*/step-5", (req, res) => {
     if (enabledProgressBookmarks.step5) {
-        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-6", (req, res) => {
+app.get("/*/step-6", (req, res) => {
     if (enabledProgressBookmarks.step6) {
-        res.render("step-6", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/step-7", (req, res) => {
-    if (enabledProgressBookmarks.step6) {
-        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+app.get("/*/step-7", (req, res) => {
+    if (enabledProgressBookmarks.step7) {
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
     }
 });
 
-app.get("/review", (req, res) => {
+app.get("/*/review", (req, res) => {
     if (enabledProgressBookmarks.review) {
-        res.render("review", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
         res.redirect("/index");
@@ -290,6 +295,7 @@ app.post("/search", function (req, res) {
 });
 
 app.post('/email-address-page', function (req, res) {
+
     notify
         .sendEmail(
             '6a5b377e-4763-4618-bd7b-7b31ac823849',
@@ -297,7 +303,8 @@ app.post('/email-address-page', function (req, res) {
             {
                 personalisation:
                 {
-                    firstName: req.body.firstName
+                    firstName: req.body.firstName,
+                    version: req.body.version
                 }
             }
         )
@@ -306,7 +313,8 @@ app.post('/email-address-page', function (req, res) {
     res.redirect('/');
 });
 
-app.post("/review", function (req, res) {
+app.post("/*/review", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/thankyou';
     notify.sendEmail(
         '3d7b74db-98aa-4dab-8638-3af09c58f046',
         visited.signatoryEmail,
@@ -319,26 +327,37 @@ app.post("/review", function (req, res) {
     ).then(response => console.log(response))
         .catch(err => console.error(err));
     resetFormFields();
-    res.redirect("/thankyou");
+    res.redirect(nextStep);
 });
 
-app.post("/step-1", function (req, res) {
+app.post("/*/step-1", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-2';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
+
     notCompletedArray.length = 0;
     if (req.body.supplierName === '') { notCompletedArray.push('supplierName') } else { visited.supplierName = req.body.supplierName };
     if (req.body.productName === '' || req.body.productName == null) { notCompletedArray.push('productName') } else { visited.productName = req.body.productName };
 
     if (notCompletedArray.length == 0) {
         enabledProgressBookmarks.step2 = true;
-        res.redirect("/step-2");
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep) ;
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-1", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 
 
 
-app.post("/step-2", (req, res) => {
+app.post("/*/step-2", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-3';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
@@ -349,15 +368,22 @@ app.post("/step-2", (req, res) => {
 
     if (notCompletedArray.length == 0) {
         enabledProgressBookmarks.step3 = true;
-        res.redirect("/step-3");
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep);
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-2", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 
-app.post("/step-3", function (req, res) {
-
+app.post("/*/step-3", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-4';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.signatoryName === '') { notCompletedArray.push('signatoryName') } else { visited.signatoryName = req.body.signatoryName };
@@ -367,60 +393,94 @@ app.post("/step-3", function (req, res) {
 
     if (notCompletedArray.length == 0) {
         enabledProgressBookmarks.step4 = true;
-        res.redirect("/step-4");
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep);
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-3", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 
-app.post("/step-4", function (req, res) {
-
+app.post("/*/step-4", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-5';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.careSetting === '') { notCompletedArray.push('careSetting') } else { visited.careSetting = req.body.careSetting };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step5 = true;
-        res.redirect("/step-5");
+        enabledProgressBookmarks.step4 = true;
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep);
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-4", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 
-app.post("/step-5", function (req, res) {
-
+app.post("/*/step-5", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-6';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.reasonAgreement === '') { notCompletedArray.push('reasonAgreement') } else { visited.reasonAgreement = req.body.reasonAgreement };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step6 = true;
-        res.redirect("/step-6");
+        enabledProgressBookmarks.step5 = true;
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep);
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-5", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 
-app.post("/step-6", function (req, res) {
+app.post("/*/step-6", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-7';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     enabledProgressBookmarks.step7 = true;
-    res.redirect("/step-7");
+    if (enabledProgressBookmarks.review === false) {
+        res.redirect(nextStep);
+    }
+    else {
+        res.redirect(reviewStep);
+    }
 });
 
-app.post("/step-7", function (req, res) {
-
+app.post("/*/step-7", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-8';
+    var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.agreeAgreement === '') { notCompletedArray.push('agreeAgreement') } else { visited.agreeAgreement = req.body.agreeAgreement };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.review = true;
-        res.redirect("/review");
+        enabledProgressBookmarks.step8 = true;
+
+        if (enabledProgressBookmarks.review === false) {
+            res.redirect(nextStep);
+        }
+        else {
+            res.redirect(reviewStep);
+        }
     }
     else {
-        res.render("step-7", { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
 

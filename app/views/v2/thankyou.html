@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block header %}
+    {% include "includes/header-servicename.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    {% include "includes/breadcrumb.html" %}
+
+    <div class="nhsuk-width-container">
+        <main class="nhsuk-main-wrapper" id="maincontent">
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-two-thirds">
+                    <div class="nhsuk-card nhsuk-card--feature">
+                        <div class="nhsuk-card__content nhsuk-card__content--feature">
+                            <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                {{ pageName }}
+                            </h2>
+                            <h3>Application Complete</h3>
+                            <p class="nhsuk-card__description">We have sent you a confirmation email.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    {% endblock %}
+
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock %}
+</body>
+</html>

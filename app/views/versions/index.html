@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block content %}
+    <div class="nhsuk-width-container">
+        <main class="nhsuk-main-wrapper" id="maincontent">
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <div class="nhsuk-grid-row nhsuk-card-group">
+                        <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+                            <div class="nhsuk-card nhsuk-card--clickable">
+                                <div class="nhsuk-card__content">
+                                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                                        <a class="nhsuk-card__link" href="/v1/">v1</a>
+                                    </h2>
+                                    <p class="nhsuk-card__description">Presented on Tuesday 26th April @ 1400</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="nhsuk-grid-column-one-third nhsuk-card-group__item">
+                            <div class="nhsuk-card nhsuk-card--clickable">
+                                <div class="nhsuk-card__content">
+                                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                                        <a class="nhsuk-card__link" href="/v2/">v2</a>
+                                    </h2>
+                                    <!--<p class="nhsuk-card__description">Tuesday 26th April @ 1400</p>-->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    {% endblock %}    
+</body>
+</html>
