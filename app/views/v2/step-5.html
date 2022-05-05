@@ -28,8 +28,7 @@
                         <div class="nhsuk-card">
                             <div class="nhsuk-card__content">
                                 <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
-                                <p class="nhsuk-card__description">We would like to capture some details about the reason for the agreement.</p>
-                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                                <p class="nhsuk-card__description">We would like to capture some details about the reason for the agreement (use case).</p>
                             </div>
                         </div>
                     </div>
@@ -40,20 +39,20 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Reason for the Agreement
+                                    Reason for the Agreement (Use Case)
                                 </h2>
                                 <div class="nhsuk-form-group{% if 'reasonAgreement' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <div class="nhsuk-hint" id="input-reason-agreement-hint">
-                                        * Please be as descriptive as you can possibly be without going into specific detail
+                                        Please provide a brief description without going into specific detail
                                     </div>
 
                                     {% if 'reasonAgreement' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Reason for the Agreement
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Reason for the Agreement (Use Case)
                                     </span>
                                     {% endif %}
 
-                                    <textarea class="nhsuk-textarea {% if 'reasonAgreement' in notCompletedArray %} nhsuk-textarea--error{% endif %}" id="input-reason-agreement" name="reasonAgreement" rows="5" aria-describedby="input-reason-agreement-hint">{{ visited.reasonAgreement }}</textarea>
+                                    <textarea class="nhsuk-textarea {% if 'reasonAgreement' in notCompletedArray %} nhsuk-textarea--error{% endif %}" id="input-reason-agreement" name="reasonAgreement" rows="3" aria-describedby="input-reason-agreement-hint">{{ visited.reasonAgreement }}</textarea>
                                 </div>
                             </div>
                         </div>

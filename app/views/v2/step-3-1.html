@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<!--[if lt IE 9]><html class="ie8" lang="en"><![endif]--><!--[if IE 9]><html class="ie9" lang="en"><![endif]--><!--[if gt IE 9]><!-->
+<html lang="en" style="background-color: #f0f4f5;">
+<!--<![endif]-->
+{% block head %}
+    {% include "includes/head.html" %}
+{% endblock %}
+
+<body>
+    <script>
+        document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
+    </script>
+
+    {% block header %}
+    {% include "includes/header-servicename.html" %}
+    {% endblock %}
+
+    {% block content %}
+
+    {% include "includes/breadcrumb.html" %}
+
+    <form method="POST">
+
+        <div class="nhsuk-width-container">
+            <main class="nhsuk-main-wrapper" id="maincontent">
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card">
+                            <div class="nhsuk-card__content">
+                                <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
+                                <p class="nhsuk-card__description">When signing on behalf of the authorised signatory as a proxy, your details are also required.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <div class="nhsuk-card nhsuk-card--feature">
+                            <div class="nhsuk-card__content nhsuk-card__content--feature">
+                                <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                                    Authorised Agreement Proxy Signatories Details
+                                </h2>
+                                <div class="nhsuk-form-group{% if 'proxySignatoryName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <label class="nhsuk-label" for="input-proxy-signatory-name">Full Name</label>
+                                    <div class="nhsuk-hint" id="input-proxy-signatory-name-with-hint-text-hint">The full name of the proxy signatory</div>
+
+                                    {% if 'proxySignatoryName' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-proxy-signatory-name-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Full Name
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'proxySignatoryName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-proxy-signatory-name" name="proxySignatoryName" type="text" aria-describedby="input-proxy-signatory-name-with-hint-text-hint" value="{{ visited.proxySignatoryName }}">
+                                </div>
+                                <div class="nhsuk-form-group{% if 'proxySignatoryJobTitle' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <label class="nhsuk-label" for="input-proxy-signatory-jobtitle">Role at the Organisation</label>
+                                    <div class="nhsuk-hint" id="input-proxy-signatory-jobtitle-with-hint-text-hint">The role at the organisation of the proxy signatory</div>
+
+                                    {% if 'proxySignatoryJobTitle' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-proxy-signatory-jobtitle-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Role at the Organisation
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'proxySignatoryJobTitle' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-proxy-signatory-jobtitle" name="proxySignatoryJobTitle" type="text" aria-describedby="input-proxy-signatory-jobtitle-with-hint-text-hint" value="{{ visited.proxySignatoryJobTitle }}">
+                                </div>
+                                <div class="nhsuk-form-group{% if 'proxySignatoryEmail' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <label class="nhsuk-label" for="input-proxy-signatory-email">Email Address</label>
+                                    <div class="nhsuk-hint" id="input-proxy-signatory-email-with-hint-text-hint">The email address of the proxy signatory</div>
+
+                                    {% if 'proxySignatoryEmail' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-proxy-signatory-email-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Email Address
+                                    </span>
+                                    {% endif %}
+
+                                    <input class="nhsuk-input{% if 'proxySignatoryEmail' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-proxy-signatory-email" name="proxySignatoryEmail" type="email" aria-describedby="input-proxy-signatory-email-with-hint-text-hint" value="{{ visited.proxySignatoryEmail }}">
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nhsuk-grid-row">
+                    <div class="nhsuk-grid-column-full">
+                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </form>
+    {% endblock %}
+
+    {% block footer %}
+    {% include "includes/footer.html" %}
+    {% endblock %}
+</body>
+</html>

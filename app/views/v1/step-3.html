@@ -35,6 +35,8 @@
                     </div>
                 </div>
 
+                <input id="input-show-proxy-details" name="showProxyDetails" type="hidden" value="false">
+
                 <div class="nhsuk-grid-row">
                     <div class="nhsuk-grid-column-full">
                         <div class="nhsuk-card nhsuk-card--feature">
@@ -69,7 +71,7 @@
                                 <div class="nhsuk-form-group{% if 'signatoryEmail' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-signatory-email">Email Address</label>
                                     <div class="nhsuk-hint" id="input-signatory-email-with-hint-text-hint">* The email address of the signatory</div>
-                                    
+
                                     {% if 'signatoryName' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-email-with-error">
                                         <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Email Address

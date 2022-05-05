@@ -48,7 +48,7 @@
                             <div class="nhsuk-summary-list__row">
                                 <dt class="nhsuk-summary-list__key">Product(s)</dt>
                                 <dd class="nhsuk-summary-list__value">{{ visited.productName }}</dd>
-                                <dd class="nhsuk-summary-list__actions"><a href="/step-1">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                                <dd class="nhsuk-summary-list__actions"><a href="./step-1">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                             </div>
                             </dl>
                         </div>
@@ -64,13 +64,17 @@
                         </h2>
                         <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
                             <div class="nhsuk-summary-list__row">
-                            <dt class="nhsuk-summary-list__key">Organisation Name</dt>
-                            <dd class="nhsuk-summary-list__value">{{ visited.organisationName }}</dd>
+                            <dt class="nhsuk-summary-list__key">Site ODS Code</dt>
+                            <dd class="nhsuk-summary-list__value">{{ visited.siteOdsCode }}</dd>
+                    </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">Organisation Name</dt>
+                        <dd class="nhsuk-summary-list__value">{{ visited.organisationName }}</dd>
                     </div>
                     <div class="nhsuk-summary-list__row">
                         <dt class="nhsuk-summary-list__key">Organisation Address</dt>
-                        <dd class="nhsuk-summary-list__value">{{ visited.organisationBuilding }}<br />{{ visited.organisationStreet }}<br /> {{ visited.organisationTown }}<br />{{ visited.organisationPostcode }}</dd>
-                        <dd class="nhsuk-summary-list__actions"><a href="/step-2">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                        <dd class="nhsuk-summary-list__value">{{ visited.organisationBuilding }} {{ visited.organisationStreet }}<br /> {{ visited.organisationTown }}<br />{{ visited.organisationPostcode }}</dd>
+                        <dd class="nhsuk-summary-list__actions"><a href="./step-2">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                     </div>
                     </dl>
                 </div>
@@ -83,7 +87,7 @@
                 <div class="nhsuk-card nhsuk-card--feature">
                     <div class="nhsuk-card__content nhsuk-card__content--feature">
                         <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                            Signatories Details
+                            Authorised Agreement Signatories Details
                         </h2>
                         <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
                             <div class="nhsuk-summary-list__row">
@@ -107,7 +111,7 @@
                             <span>I am completing this agreement on behalf of this signatory</span>
                             {% endif %}
                         </dd>
-                        <dd class="nhsuk-summary-list__actions"><a href="/step-3">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                        <dd class="nhsuk-summary-list__actions"><a href="./step-3">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                     </div>
                     </dl>
                 </div>
@@ -115,18 +119,48 @@
         </div>
         </div>
 
+        {% if visited.signatoryProxyDeclaration === 'false' %}
+
         <div class="nhsuk-grid-row">
             <div class="nhsuk-grid-column-full">
                 <div class="nhsuk-card nhsuk-card--feature">
                     <div class="nhsuk-card__content nhsuk-card__content--feature">
                         <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                            Care Settings
+                            Authorised Agreement Proxy Signatories Details
+                        </h2>
+                        <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
+                            <div class="nhsuk-summary-list__row">
+                            <dt class="nhsuk-summary-list__key">Full Name</dt>
+                            <dd class="nhsuk-summary-list__value">{{ visited.proxySignatoryName }}</dd>
+                    </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">Job Title</dt>
+                        <dd class="nhsuk-summary-list__value">{{ visited.proxySignatoryJobTitle }}</dd>
+                    </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">Email Address</dt>
+                        <dd class="nhsuk-summary-list__value">{{ visited.proxySignatoryEmail }}</dd>
+                        <dd class="nhsuk-summary-list__actions"><a href="./step-3-1">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                    </div>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        </div>
+        {% endif %}
+
+        <div class="nhsuk-grid-row">
+            <div class="nhsuk-grid-column-full">
+                <div class="nhsuk-card nhsuk-card--feature">
+                    <div class="nhsuk-card__content nhsuk-card__content--feature">
+                        <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
+                            Care Setting
                         </h2>
                         <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
                             <div class="nhsuk-summary-list__row">
                             <dt class="nhsuk-summary-list__key">Care Setting</dt>
                             <dd class="nhsuk-summary-list__value">{{ visited.careSetting }}</dd>
-                            <dd class="nhsuk-summary-list__actions"><a href="/step-4">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                            <dd class="nhsuk-summary-list__actions"><a href="./step-4">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                     </div>
                     </dl>
                 </div>
@@ -139,13 +173,12 @@
                 <div class="nhsuk-card nhsuk-card--feature">
                     <div class="nhsuk-card__content nhsuk-card__content--feature">
                         <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                            Reason for the Agreement
+                            Reason for the Agreement (Use Case)
                         </h2>
                         <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
                             <div class="nhsuk-summary-list__row">
-                            <dt class="nhsuk-summary-list__key">Reason for the Agreement</dt>
                             <dd class="nhsuk-summary-list__value">{{ visited.reasonAgreement }}</dd>
-                            <dd class="nhsuk-summary-list__actions"><a href="/step-5">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                            <dd class="nhsuk-summary-list__actions"><a href="./step-5">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                     </div>
                     </dl>
                 </div>
@@ -166,17 +199,6 @@
                         <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
                             Agree to the National Data Sharing Agreement
                         </h2>
-                        <p class="nhsuk-card__description">
-                            <div class="nhsuk-action-link">
-                                <a class="nhsuk-action-link__link" target="_blank" href="https://digital.nhs.uk/services/gp-connect">
-                                    <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
-                                        <path d="M0 0h24v24H0z" fill="none"></path>
-                                        <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
-                                    </svg>
-                                    <span class="nhsuk-action-link__text">Download the National Data Sharing Agreement</span>
-                                </a>
-                            </div>
-                        </p>
                         <dl class="nhsuk-summary-list nhsuk-summary-list--no-border">
                             <div class="nhsuk-summary-list__row">
                             <dt class="nhsuk-summary-list__key">Consent to the Agreement</dt>
@@ -187,7 +209,7 @@
                                 <span>&#10007;</span>
                                 {% endif %}
                             </dd>
-                            <dd class="nhsuk-summary-list__actions"><a href="/step-7">Change<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
+                            <dd class="nhsuk-summary-list__actions"><a href="./step-6">Review Agreement<span class="nhsuk-u-visually-hidden"> name</span></a></dd>
                     </div>
                     </dl>
                 </div>

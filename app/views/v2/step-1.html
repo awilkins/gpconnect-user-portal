@@ -28,8 +28,7 @@
                         <div class="nhsuk-card">
                             <div class="nhsuk-card__content">
                                 <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
-                                <p class="nhsuk-card__description">We would like to capture some details about the supplier and products.</p>
-                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                                <p class="nhsuk-card__description">We would like to capture some details about the software supplier and products.</p>
                             </div>
                         </div>
                     </div>
@@ -40,14 +39,14 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Supplier Name
+                                    Software Supplier Name
                                 </h2>
                                 <div class="nhsuk-form-group{% if 'supplierName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                    <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">* Please select the supplier</div>
+                                    <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">The software supplier name is the organisation who provides you with access to GP Connect product capabilities. Further information can be found <a target="_blank" href="https://digital.nhs.uk/services/gp-connect/supplier-progress">here</a></div>
 
                                     {% if 'supplierName' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-supplier-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Supplier Name
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Software Supplier Name
                                     </span>
                                     {% endif %}
 
@@ -97,44 +96,41 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Products
+                                    Products used by the Software Supplier
                                 </h2>
                                 <div class="nhsuk-form-group{% if 'productName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <div class="nhsuk-hint" id="input-supplier-name-with-hint-text-hint">The software supplier product list are the software capabilities which have been assured for the software supplier you have selected.</div>
                                     <fieldset class="nhsuk-fieldset">
-                                        <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--m">
-                                            * Select the GP Connect product(s) you wish to access
-                                        </legend>
-
                                         {% if 'productName' in notCompletedArray %}
                                         <span class="nhsuk-error-message" id="input-product-name-with-error">
                                             <span class="nhsuk-u-visually-hidden">Error:</span> You must select a Product
                                         </span>
-                                        {% endif %}                                        
+                                        {% endif %}
 
                                         <div class="nhsuk-checkboxes">
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-html" name="productName" type="checkbox" value="Access Record HTML" aria-describedby="nhsuk-access-record-html-hint"{% if 'Access Record HTML' in visited.productName %} checked{% endif %}>
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-html" name="productName" type="checkbox" value="Access Record HTML" aria-describedby="nhsuk-access-record-html-hint" {% if 'Access Record HTML' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-html">Access Record HTML</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-html-hint">
                                                     <a href="#">What is Access Record HTML?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-1" name="productName" type="checkbox" value="Access Record Structured v1" aria-describedby="nhsuk-access-record-structured-1-hint"{% if 'Access Record Structured v1' in visited.productName %} checked{% endif %}>
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-1" name="productName" type="checkbox" value="Access Record Structured v1" aria-describedby="nhsuk-access-record-structured-1-hint" {% if 'Access Record Structured v1' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-1">Access Record Structured v1</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-1-hint">
                                                     <a href="#">What is Access Record Structured v1?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-2" name="productName" type="checkbox" value="Access Record Structured v2" aria-describedby="nhsuk-access-record-structured-2-hint"{% if 'Access Record Structured v2' in visited.productName %} checked{% endif %}>
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-structured-2" name="productName" type="checkbox" value="Access Record Structured v2" aria-describedby="nhsuk-access-record-structured-2-hint" {% if 'Access Record Structured v2' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-structured-2">Access Record Structured v2</label>
                                                 <div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-structured-2-hint">
                                                     <a href="#">What is Access Record Structured v2?</a>
                                                 </div>
                                             </div>
                                             <div class="nhsuk-checkboxes__item">
-                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-appointments" name="productName" type="checkbox" value="Appointment Management" aria-describedby="nhsuk-access-record-appointments-hint"{% if 'Appointment Management' in visited.productName %} checked{% endif %}>
+                                                <input class="nhsuk-checkboxes__input" id="nhsuk-access-record-appointments" name="productName" type="checkbox" value="Appointment Management" aria-describedby="nhsuk-access-record-appointments-hint" {% if 'Appointment Management' in visited.productName %} checked{% endif %}>
                                                 <label class="nhsuk-label nhsuk-checkboxes__label" for="nhsuk-access-record-appointments">Appointment Management</label><div class="nhsuk-hint nhsuk-checkboxes__hint" id="nhsuk-access-record-appointments-hint">
                                                     <a href="#">What is Appointment Management?</a>
                                                 </div>

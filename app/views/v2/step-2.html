@@ -27,8 +27,7 @@
                         <div class="nhsuk-card">
                             <div class="nhsuk-card__content">
                                 <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
-                                <p class="nhsuk-card__description">We would like to capture some details about your organisation. Don't worry - we won't use the details other than for the purpose of verifying your registration.</p>
-                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                                <p class="nhsuk-card__description">We would like to determine the organisation details.</p>
                             </div>
                         </div>
                     </div>
@@ -39,71 +38,79 @@
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Your Organisation's Details
+                                    Location using Data Sharing Agreement Details
                                 </h2>
-                                <div class="nhsuk-form-group{% if 'organisationName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                    <label class="nhsuk-label" for="input-organisation-name">Organisation Name</label>
-                                    <div class="nhsuk-hint" id="input-organisation-name-with-hint-text-hint">* Enter the name of your organisation</div>
+                                <div class="nhsuk-form-group{% if 'siteOdsCode' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
+                                    <label class="nhsuk-label" for="input-site-ods-code">Site ODS Code</label>
+                                    <div class="nhsuk-hint" id="input-site-ods-code-with-hint-text-hint">The site ODS code uniquely identifies the organisation and we will use it to establish the entity to which the agreement applies.</div>
 
-                                    {% if 'organisationName' in notCompletedArray %}
-                                    <span class="nhsuk-error-message" id="input-organisation-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Organisation Name
+                                    {% if 'siteOdsCode' in notCompletedArray %}
+                                    <span class="nhsuk-error-message" id="input-site-ods-code-with-error">
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Site ODS Code
                                     </span>
                                     {% endif %}
 
-                                    <input class="nhsuk-input{% if 'organisationName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
+                                    <input class="nhsuk-input{% if 'siteOdsCode' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-site-ods-code" name="siteOdsCode" type="text" aria-describedby="input-site-ods-code-with-hint-text-hint" value="{{ visited.siteOdsCode }}">
                                 </div>
-                                <fieldset class="nhsuk-fieldset">
-                                    <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
-                                        <h1 class="nhsuk-fieldset__heading">
-                                            Organisation Address
-                                        </h1>
-                                    </legend>
-                                    <div class="nhsuk-form-group{% if 'organisationBuilding' in notCompletedArray %} nhsuk-form-group--error {% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-building">Building and Street</label>
-                                        <div class="nhsuk-hint" id="input-organisation-building-with-hint-text-hint">* Enter the building and street part of your organisation's address</div>
-
-                                        {% if 'organisationBuilding' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-building-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Building
-                                        </span>
-                                        {% endif %}
-
-                                        <input class="nhsuk-input{% if 'organisationBuilding' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-building" name="organisationBuilding" type="text" aria-describedby="input-organisation-building-with-hint-text-hint" value="{{ visited.organisationBuilding }}">
-
-                                        <input class="nhsuk-input" id="input-organisation-street" name="organisationStreet" type="text" aria-describedby="input-organisation-street-with-hint-text-hint" value="{{ visited.organisationStreet }}">
-                                    </div>
-                                    <div class="nhsuk-form-group{% if 'organisationTown' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-town">Town or City</label>
-                                        <div class="nhsuk-hint" id="input-organisation-town-with-hint-text-hint">* Enter the town or city part of your organisation's address</div>
-                                        {% if 'organisationTown' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-town-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Town or City
-                                        </span>
-                                        {% endif %}
-                                        <input class="nhsuk-input{% if 'organisationTown' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-town" name="organisationTown" type="text" aria-describedby="input-organisation-town-with-hint-text-hint" value="{{ visited.organisationTown }}">
-                                    </div>
-                                    <div class="nhsuk-form-group{% if 'organisationPostcode' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                        <label class="nhsuk-label" for="input-organisation-postcode">Postcode</label>
-                                        <div class="nhsuk-hint" id="input-organisation-postcode-with-hint-text-hint">* Enter the postcode of your organisation's address</div>
-                                        {% if 'organisationTown' in notCompletedArray %}
-                                        <span class="nhsuk-error-message" id="input-organisation-postcode-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Postcode
-                                        </span>
-                                        {% endif %}
-                                        <input class="nhsuk-input{% if 'organisationPostcode' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-postcode" name="organisationPostcode" type="text" aria-describedby="input-organisation-postcode-with-hint-text-hint" value="{{ visited.organisationPostcode }}">
-                                    </div>
-                                </fieldset>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                {% if visited.haveOrganisationDetails %}
+
                 <div class="nhsuk-grid-row">
-                    <div class="nhsuk-grid-column-one-half">
-                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                    <div class="nhsuk-grid-column-two-thirds">
+                        <dl class="nhsuk-summary-list">
+                            <div class="nhsuk-summary-list__row">
+                            <dt class="nhsuk-summary-list__key">
+                                Organisation Name
+                            </dt>
+                            <dd class="nhsuk-summary-list__value">
+                                {{ visited.organisationName }}
+                            </dd>
                     </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">
+                            Organisation Address
+                        </dt>
+                        <dd class="nhsuk-summary-list__value">
+                            {{ visited.organisationBuilding }} {{ visited.organisationStreet }}
+                        </dd>
+                    </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">
+                            &nbsp;
+                        </dt>
+                        <dd class="nhsuk-summary-list__value">
+                            {{ visited.organisationTown }}
+                        </dd>
+                    </div>
+                    <div class="nhsuk-summary-list__row">
+                        <dt class="nhsuk-summary-list__key">
+                            &nbsp;
+                        </dt>
+                        <dd class="nhsuk-summary-list__value">
+                            {{ visited.organisationPostcode }}
+                        </dd>
+                    </div>
+                    </dl>
                 </div>
-            </main>
+
+
+        </div>
+        {% endif %}
+        <div class="nhsuk-grid-row">
+            <div class="nhsuk-grid-column-one-half">
+                <button value="getorganisation" class="nhsuk-button nhsuk-button--secondary" name="action">Find Organisation</button>
+            </div>
+        </div>
+        <div class="nhsuk-grid-row">
+            <div class="nhsuk-grid-column-one-half">
+                <button value="submitformvalues" class="nhsuk-button nhsuk-button--primary" name="action">Continue</button>
+            </div>
+        </div>
+        </main>
         </div>
     </form>
     {% endblock %}

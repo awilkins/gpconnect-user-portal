@@ -12,7 +12,7 @@
     </script>
 
     {% block header %}
-        {% include "includes/header.html" %}
+    {% include "includes/header.html" %}
     {% endblock %}
 
     {% block content %}
@@ -33,35 +33,56 @@
 
     <div class="nhsuk-width-container">
         <main class="nhsuk-main-wrapper" id="maincontent">
-            <section class="nhsuk-section-break--m">
-                <div class="nhsuk-grid-row">
-                    <div class="nhsuk-grid-column-full">
-                        <div class="nhsuk-card">
-                            <div class="nhsuk-card__content">
-                                <h3 class="nhsuk-card__heading">This portal provides:</h3>
-                                <p class="nhsuk-card__description">
-                                    <ol class="nhsuk-contents-list__list">
-                                        <li class="nhsuk-contents-list__item"><span>Information about end users who are using GP Connect products for Direct Patient Care.</span></li>
-                                        <li class="nhsuk-contents-list__item"><span>Support to end users who wish to start to use GP Connect products or change the ones they are currently using.</span></li>
-                                        <li class="nhsuk-contents-list__item"><span>The National Data Sharing Agreement which all users and suppliers of GP Connect products must adhere to.</span></li>
-                                        <li class="nhsuk-contents-list__item"><span>Transparency for citizens regarding which services are able to view their GP Patient Record to support their direct care.</span></li>
-                                    </ol>
-                                <p>To find out more about GP Connect products, please visit the <a class="nhsuk-card__link" href="https://digital.nhs.uk/services/gp-connect">GP Connect website</a></p>
-                                <p>If you are a supplier looking to gain assurance for any of the GP Connect products, please visit the <a class="nhsuk-card__link" href="https://github.com/nhsconnect/gpc-consumer-support/wiki">GP Connect Consumer Support Hub</a></p>
-                                <div class="nhsuk-action-link">
-                                    <a class="nhsuk-action-link__link" href="./step-1">
-                                        <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
-                                            <path d="M0 0h24v24H0z" fill="none"></path>
-                                            <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
-                                        </svg>
-                                        <span class="nhsuk-action-link__text">Start Now!</span>
-                                    </a>
+            <div class="nhsuk-grid-row">
+                <div class="nhsuk-grid-column-full">
+                    <ul class="nhsuk-grid-row nhsuk-card-group">
+                        <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+                            <div class="nhsuk-card nhsuk-card--clickable">
+                                <div class="nhsuk-card__content">
+                                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                                        This portal provides:
+                                    </h2>
+                                    <p class="nhsuk-card__description">
+                                        <ol class="nhsuk-contents-list__list">
+                                            <li class="nhsuk-contents-list__item"><span>Information about end users who are using GP Connect products for Direct Patient Care.</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Support to end users who wish to start to use GP Connect products or change the ones they are currently using.</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>The National Data Sharing Agreement which all users and suppliers of GP Connect products must adhere to.</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Transparency for citizens regarding which services are able to view their GP Patient Record to support their direct care.</span></li>
+                                        </ol>
+                                    </p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </li>
+                        <li class="nhsuk-grid-column-one-half nhsuk-card-group__item">
+                            <div class="nhsuk-card nhsuk-card--clickable">
+                                <div class="nhsuk-card__content">
+                                    <h2 class="nhsuk-card__heading nhsuk-heading-m">
+                                        What you need to successfully apply for the data sharing agreement:
+                                    </h2>
+                                    <p class="nhsuk-card__description">
+                                        <ol class="nhsuk-contents-list__list">
+                                            <li class="nhsuk-contents-list__item"><span>Details of your software supplier</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Details of your organisation</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Details of the signatory who will act as custodian of the data sharing agreement within your organisation</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Your care setting</span></li>
+                                            <li class="nhsuk-contents-list__item"><span>Details of your use case (reason for needing the agreement)</span></li>
+                                        </ol>
+                                        <div class="nhsuk-action-link">
+                                            <a class="nhsuk-action-link__link" href="./step-1">
+                                                <svg class="nhsuk-icon nhsuk-icon__arrow-right-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" width="36" height="36">
+                                                    <path d="M0 0h24v24H0z" fill="none"></path>
+                                                    <path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2z"></path>
+                                                </svg>
+                                                <span class="nhsuk-action-link__text">Start Now!</span>
+                                            </a>
+                                        </div>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
-            </section>
+            </div>
         </main>
     </div>
     {% endblock %}

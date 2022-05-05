@@ -45,10 +45,16 @@ app.set("view engine", "ejs");
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    resetFormFields();
+    res.redirect("/versions/index");
+});
+
 var NotifyClient = require('notifications-node-client').NotifyClient,
     notify = new NotifyClient(process.env.NOTIFYAPIKEY);
 
 const visited = {
+    siteOdsCode: '',
     organisationName: '',
     organisationBuilding: '',
     organisationStreet: '',
@@ -59,6 +65,9 @@ const visited = {
     signatoryName: '',
     signatoryJobTitle: '',
     signatoryEmail: '',
+    proxySignatoryName: '',
+    proxySignatoryJobTitle: '',
+    proxySignatoryEmail: '',
     signatoryProxyDeclaration: '',
     careSetting: '',
     reasonAgreement: '',
@@ -89,9 +98,11 @@ const enabledProgressBookmarks = {
     step1: true,
     step2: false,
     step3: false,
+    step3a: false,
     step4: false,
     step5: false,
     step6: false,
+    inlineAgreement: false,
     step7: false,
     review: false
 }
@@ -113,6 +124,7 @@ function resetFormFields() {
 
     notCompletedArray.length = 0;
 
+    visited.siteOdsCode = '';
     visited.organisationName = '';
     visited.organisationBuilding = '';
     visited.organisationStreet = '';
@@ -124,24 +136,25 @@ function resetFormFields() {
     visited.signatoryJobTitle = '';
     visited.signatoryEmail = '';
     visited.signatoryProxyDeclaration = '';
+    visited.proxySignatoryName = '';
+    visited.proxySignatoryJobTitle = '';
+    visited.proxySignatoryEmail = '';
     visited.careSetting = '';
     visited.reasonAgreement = '';
     visited.agreeAgreement = '';
+    visited.haveOrganisationDetails = false;
 
     enabledProgressBookmarks.step1 = true;
     enabledProgressBookmarks.step2 = false;
     enabledProgressBookmarks.step3 = false;
+    enabledProgressBookmarks.step3a = false;
     enabledProgressBookmarks.step4 = false;
     enabledProgressBookmarks.step5 = false;
     enabledProgressBookmarks.step6 = false;
+    enabledProgressBookmarks.inlineAgreement = false;
     enabledProgressBookmarks.step7 = false;
     enabledProgressBookmarks.review = false;
 }
-
-app.get("/", (req, res) => {
-    resetFormFields();
-    res.redirect("/versions/index");
-});
 
 app.get("/*/step-1", (req, res) => {
     if (enabledProgressBookmarks.step1) {
@@ -166,7 +179,16 @@ app.get("/*/step-3", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
+    }
+});
+
+app.get("/*/step-3-1", (req, res) => {
+    if (enabledProgressBookmarks.step3a) {
+        res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+    }
+    else {
+        res.redirect("./index");
     }
 });
 
@@ -176,7 +198,7 @@ app.get("/*/step-4", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -185,7 +207,7 @@ app.get("/*/step-5", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -342,7 +364,7 @@ app.post("/*/step-1", function (req, res) {
         enabledProgressBookmarks.step2 = true;
 
         if (enabledProgressBookmarks.review === false) {
-            res.redirect(nextStep) ;
+            res.redirect(nextStep);
         }
         else {
             res.redirect(reviewStep);
@@ -353,22 +375,106 @@ app.post("/*/step-1", function (req, res) {
     }
 });
 
-
-
 app.post("/*/step-2", function (req, res) {
-    var nextStep = '/' + req.path.split('/')[1] + '/step-3';
+
+    switch (req.body.action) {
+        case 'getorganisation':
+            if (req.body.siteOdsCode === '') {
+                notCompletedArray.push('siteOdsCode');
+                visited.siteOdsCode = '';
+                visited.organisationName = '';
+                visited.organisationBuilding = '';
+                visited.organisationStreet = '';
+                visited.organisationTown = '';
+                visited.organisationPostcode = '';
+                visited.haveOrganisationDetails = false;
+            }
+            else {
+                var index = notCompletedArray.indexOf('siteOdsCode');
+                if (index !== -1) {
+                    notCompletedArray.splice(index, 1);
+                }
+                visited.siteOdsCode = req.body.siteOdsCode;
+                visited.organisationName = 'Testvale Surgery';
+                visited.organisationBuilding = '12';
+                visited.organisationStreet = 'Salisbury Road';
+                visited.organisationTown = 'Southampton';
+                visited.organisationPostcode = 'SO40 3PY';
+                visited.haveOrganisationDetails = true;
+            };
+            res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+            break;
+        case 'submitformvalues':
+            var nextStep = '/' + req.path.split('/')[1] + '/step-3';
+            var reviewStep = '/' + req.path.split('/')[1] + '/review';
+            notCompletedArray.length = 0;
+
+            if (req.body.siteOdsCode === '') {
+                notCompletedArray.push('siteOdsCode');
+                if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
+                if (req.body.organisationBuilding === '') { notCompletedArray.push('organisationBuilding') } else { visited.organisationBuilding = req.body.organisationBuilding };
+                if (req.body.organisationTown === '') { notCompletedArray.push('organisationTown') } else { visited.organisationTown = req.body.organisationTown };
+                if (req.body.organisationPostcode === '') { notCompletedArray.push('organisationPostcode') } else { visited.organisationPostcode = req.body.organisationPostcode };
+            }
+            else {
+                visited.siteOdsCode = req.body.siteOdsCode;
+                visited.organisationName = 'Testvale Surgery';
+                visited.organisationBuilding = '12';
+                visited.organisationStreet = 'Salisbury Road';
+                visited.organisationTown = 'Southampton';
+                visited.organisationPostcode = 'SO40 3PY';
+                visited.haveOrganisationDetails = true;
+            };
+
+            if (notCompletedArray.length == 0) {
+                enabledProgressBookmarks.step3 = true;
+
+                if (enabledProgressBookmarks.review === false) {
+                    res.redirect(nextStep);
+                }
+                else {
+                    res.redirect(reviewStep);
+                }
+            }
+            else {
+                res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
+            }
+            break;
+    }    
+});
+
+app.post("/*/step-3", function (req, res) {
+    var nextStep = '/' + req.path.split('/')[1] + '/step-4';
     var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
-    if (req.body.organisationName === '') { notCompletedArray.push('organisationName') } else { visited.organisationName = req.body.organisationName };
-    if (req.body.organisationBuilding === '') { notCompletedArray.push('organisationBuilding') } else { visited.organisationBuilding = req.body.organisationBuilding };
-    visited.organisationStreet = req.body.organisationStreet;
-    if (req.body.organisationTown === '') { notCompletedArray.push('organisationTown') } else { visited.organisationTown = req.body.organisationTown };
-    if (req.body.organisationPostcode === '') { notCompletedArray.push('organisationPostcode') } else { visited.organisationPostcode = req.body.organisationPostcode };
+    var showProxyDetails = req.body.showProxyDetails;
+    var signatoryProxyDeclaration = req.body.signatoryProxyDeclaration;    
 
+    if (req.body.signatoryName === '') { notCompletedArray.push('signatoryName') } else { visited.signatoryName = req.body.signatoryName };
+    if (req.body.signatoryJobTitle === '') { notCompletedArray.push('signatoryJobTitle') } else { visited.signatoryJobTitle = req.body.signatoryJobTitle };
+    if (req.body.signatoryEmail === '') { notCompletedArray.push('signatoryEmail') } else { visited.signatoryEmail = req.body.signatoryEmail };
+    if (req.body.signatoryProxyDeclaration === '') { notCompletedArray.push('signatoryProxyDeclaration') } else { visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration };
+        
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step3 = true;
-
+        
+        if (showProxyDetails) {
+            if (signatoryProxyDeclaration === 'true') {
+                nextStep = '/' + req.path.split('/')[1] + '/step-4';
+                enabledProgressBookmarks.step3a = false;
+                enabledProgressBookmarks.step4 = true;
+            }
+            else {
+                nextStep = '/' + req.path.split('/')[1] + '/step-3-1';
+                enabledProgressBookmarks.step3a = true;
+                enabledProgressBookmarks.step4 = false;
+            }
+        }
+        else {
+            nextStep = '/' + req.path.split('/')[1] + '/step-4';
+            enabledProgressBookmarks.step4 = true;
+        }
+        
         if (enabledProgressBookmarks.review === false) {
             res.redirect(nextStep);
         }
@@ -381,17 +487,19 @@ app.post("/*/step-2", function (req, res) {
     }
 });
 
-app.post("/*/step-3", function (req, res) {
+app.post("/*/step-3-1", function (req, res) {
     var nextStep = '/' + req.path.split('/')[1] + '/step-4';
     var reviewStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
-    if (req.body.signatoryName === '') { notCompletedArray.push('signatoryName') } else { visited.signatoryName = req.body.signatoryName };
-    if (req.body.signatoryJobTitle === '') { notCompletedArray.push('signatoryJobTitle') } else { visited.signatoryJobTitle = req.body.signatoryJobTitle };
-    if (req.body.signatoryEmail === '') { notCompletedArray.push('signatoryEmail') } else { visited.signatoryEmail = req.body.signatoryEmail };
-    if (req.body.signatoryProxyDeclaration === '') { notCompletedArray.push('signatoryProxyDeclaration') } else { visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration };
+    if (req.body.proxySignatoryName === '') { notCompletedArray.push('proxySignatoryName') } else { visited.proxySignatoryName = req.body.proxySignatoryName };
+    if (req.body.proxySignatoryJobTitle === '') { notCompletedArray.push('proxySignatoryJobTitle') } else { visited.proxySignatoryJobTitle = req.body.proxySignatoryJobTitle };
+    if (req.body.proxySignatoryEmail === '') { notCompletedArray.push('proxySignatoryEmail') } else { visited.proxySignatoryEmail = req.body.proxySignatoryEmail };
 
     if (notCompletedArray.length == 0) {
+
+        enabledProgressBookmarks.step3 = true;
+        enabledProgressBookmarks.step3a = true;
         enabledProgressBookmarks.step4 = true;
 
         if (enabledProgressBookmarks.review === false) {
@@ -405,6 +513,7 @@ app.post("/*/step-3", function (req, res) {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
+
 
 app.post("/*/step-4", function (req, res) {
     var nextStep = '/' + req.path.split('/')[1] + '/step-5';
@@ -414,7 +523,7 @@ app.post("/*/step-4", function (req, res) {
     if (req.body.careSetting === '') { notCompletedArray.push('careSetting') } else { visited.careSetting = req.body.careSetting };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step4 = true;
+        enabledProgressBookmarks.step5 = true;
 
         if (enabledProgressBookmarks.review === false) {
             res.redirect(nextStep);
@@ -436,7 +545,7 @@ app.post("/*/step-5", function (req, res) {
     if (req.body.reasonAgreement === '') { notCompletedArray.push('reasonAgreement') } else { visited.reasonAgreement = req.body.reasonAgreement };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step5 = true;
+        enabledProgressBookmarks.step6 = true;
 
         if (enabledProgressBookmarks.review === false) {
             res.redirect(nextStep);
@@ -453,7 +562,27 @@ app.post("/*/step-5", function (req, res) {
 app.post("/*/step-6", function (req, res) {
     var nextStep = '/' + req.path.split('/')[1] + '/step-7';
     var reviewStep = '/' + req.path.split('/')[1] + '/review';
-    enabledProgressBookmarks.step7 = true;
+    notCompletedArray.length = 0;
+
+    enabledProgressBookmarks.inlineAgreement = req.body.inlineAgreement;
+
+    if (req.body.inlineAgreement === 'true') {
+        if (req.body.agreeAgreement === '') { notCompletedArray.push('agreeAgreement') } else { visited.agreeAgreement = req.body.agreeAgreement };
+
+        if (notCompletedArray.length == 0) {
+            enabledProgressBookmarks.review = true;
+            nextStep = '/' + req.path.split('/')[1] + '/review';
+        }
+    }
+    else {
+        if (notCompletedArray.length == 0) {
+            nextStep = '/' + req.path.split('/')[1] + '/step-7';
+            enabledProgressBookmarks.step7 = true;
+        }
+    }
+
+    console.log(nextStep);
+    
     if (enabledProgressBookmarks.review === false) {
         res.redirect(nextStep);
     }
@@ -463,21 +592,14 @@ app.post("/*/step-6", function (req, res) {
 });
 
 app.post("/*/step-7", function (req, res) {
-    var nextStep = '/' + req.path.split('/')[1] + '/step-8';
-    var reviewStep = '/' + req.path.split('/')[1] + '/review';
+    var nextStep = '/' + req.path.split('/')[1] + '/review';
     notCompletedArray.length = 0;
 
     if (req.body.agreeAgreement === '') { notCompletedArray.push('agreeAgreement') } else { visited.agreeAgreement = req.body.agreeAgreement };
 
     if (notCompletedArray.length == 0) {
-        enabledProgressBookmarks.step8 = true;
-
-        if (enabledProgressBookmarks.review === false) {
-            res.redirect(nextStep);
-        }
-        else {
-            res.redirect(reviewStep);
-        }
+        enabledProgressBookmarks.review = true;
+        res.redirect(nextStep);
     }
     else {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });

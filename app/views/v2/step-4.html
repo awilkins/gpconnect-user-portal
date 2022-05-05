@@ -27,8 +27,7 @@
                         <div class="nhsuk-card">
                             <div class="nhsuk-card__content">
                                 <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
-                                <p class="nhsuk-card__description">We would like to capture some details about the care settings.</p>
-                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
+                                <p class="nhsuk-card__description">We would like to capture some details about the care setting.</p>
                             </div>
                         </div>
                     </div>
@@ -42,11 +41,11 @@
                                     Care Setting
                                 </h2>
                                 <div class="nhsuk-form-group{% if 'careSetting' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                    <div class="nhsuk-hint" id="input-care-setting-with-hint-text-hint">* Please indicate the care setting for this agreement</div>
+                                    <div class="nhsuk-hint" id="input-care-setting-with-hint-text-hint">Please indicate the care setting for this agreement</div>
 
                                     {% if 'careSetting' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-name-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Care Setting
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must select a value for Care Setting
                                     </span>
                                     {% endif %}
 
@@ -66,11 +65,13 @@
                                         <option {% if visited.careSetting === 'Pharmacy' %} selected {% endif %} value="Pharmacy">Pharmacy</option>
                                         <option {% if visited.careSetting === 'Primary Care Network' %} selected {% endif %} value="Primary Care Network">Primary Care Network</option>
                                         <option {% if visited.careSetting === 'Remote Consultation' %} selected {% endif %} value="Remote Consultation">Remote Consultation</option>
+                                        <option {% if visited.careSetting === 'Residential Care' %} selected {% endif %} value="Residential Care">Residential Care</option>
                                         <option {% if visited.careSetting === 'Secondary Care' %} selected {% endif %} value="Secondary Care">Secondary Care</option>
                                         <option {% if visited.careSetting === 'Shared Care Record' %} selected {% endif %} value="Shared Care Record">Shared Care Record</option>
                                         <option {% if visited.careSetting === 'Social Care' %} selected {% endif %} value="Social Care">Social Care</option>
                                         <option {% if visited.careSetting === 'Urgent Treatment Centre (UTC)' %} selected {% endif %} value="Urgent Treatment Centre (UTC)">Urgent Treatment Centre (UTC)</option>
                                         <option {% if visited.careSetting === 'Walk In Centre' %} selected {% endif %} value="Walk In Centre">Walk In Centre</option>
+                                        <option {% if visited.careSetting === 'Other' %} selected {% endif %} value="Other">Other</option>
                                     </select>
                                 </div>
                             </div>

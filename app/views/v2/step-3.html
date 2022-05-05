@@ -29,22 +29,23 @@
                             <div class="nhsuk-card__content">
                                 <h3 class="nhsuk-card__heading">{{ pageName }}</h3>
                                 <p class="nhsuk-card__description">We would like to capture some details about the signatories.</p>
-                                <p class="nhsuk-card__description">Please note that all fields marked with a * are compulsory.</p>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <input id="input-show-proxy-details" name="showProxyDetails" type="hidden" value="true">
 
                 <div class="nhsuk-grid-row">
                     <div class="nhsuk-grid-column-full">
                         <div class="nhsuk-card nhsuk-card--feature">
                             <div class="nhsuk-card__content nhsuk-card__content--feature">
                                 <h2 class="nhsuk-card__heading nhsuk-card__heading--feature nhsuk-heading-m">
-                                    Signatories Details
+                                    Authorised Agreement Signatories Details
                                 </h2>
                                 <div class="nhsuk-form-group{% if 'signatoryName' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-signatory-name">Full Name</label>
-                                    <div class="nhsuk-hint" id="input-signatory-name-with-hint-text-hint">* The full name of the signatory</div>
+                                    <div class="nhsuk-hint" id="input-signatory-name-with-hint-text-hint">The full name of the signatory</div>
 
                                     {% if 'signatoryName' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-name-with-error">
@@ -55,12 +56,12 @@
                                     <input class="nhsuk-input{% if 'signatoryName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-signatory-name" name="signatoryName" type="text" aria-describedby="input-signatory-name-with-hint-text-hint" value="{{ visited.signatoryName }}">
                                 </div>
                                 <div class="nhsuk-form-group{% if 'signatoryJobTitle' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
-                                    <label class="nhsuk-label" for="input-signatory-jobtitle">Job Title</label>
-                                    <div class="nhsuk-hint" id="input-signatory-jobtitle-with-hint-text-hint">* The job title of the signatory</div>
+                                    <label class="nhsuk-label" for="input-signatory-jobtitle">Role at the Organisation</label>
+                                    <div class="nhsuk-hint" id="input-signatory-jobtitle-with-hint-text-hint">The role at the organisation of the signatory</div>
 
-                                    {% if 'signatoryName' in notCompletedArray %}
+                                    {% if 'signatoryJobTitle' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-jobtitle-with-error">
-                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Job Title
+                                        <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Role at the Organisation
                                     </span>
                                     {% endif %}
 
@@ -68,9 +69,9 @@
                                 </div>
                                 <div class="nhsuk-form-group{% if 'signatoryEmail' in notCompletedArray %} nhsuk-form-group--error{% endif %}">
                                     <label class="nhsuk-label" for="input-signatory-email">Email Address</label>
-                                    <div class="nhsuk-hint" id="input-signatory-email-with-hint-text-hint">* The email address of the signatory</div>
-                                    
-                                    {% if 'signatoryName' in notCompletedArray %}
+                                    <div class="nhsuk-hint" id="input-signatory-email-with-hint-text-hint">The email address of the signatory</div>
+
+                                    {% if 'signatoryEmail' in notCompletedArray %}
                                     <span class="nhsuk-error-message" id="input-signatory-email-with-error">
                                         <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Email Address
                                     </span>
@@ -84,12 +85,12 @@
                                             Proxy Declaration
                                         </legend>
                                         <div class="nhsuk-hint" id="input-proxy-declaration-hint-text">
-                                            * Please indicate if you are the signatory or someone else is
+                                            Please indicate if you are the signatory or someone else is
                                         </div>
 
                                         {% if 'signatoryProxyDeclaration' in notCompletedArray %}
                                         <span class="nhsuk-error-message" id="input-signatory-email-with-error">
-                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must enter a value for Proxy Declaration
+                                            <span class="nhsuk-u-visually-hidden">Error:</span> You must choose a value for Proxy Declaration
                                         </span>
                                         {% endif %}
 
@@ -101,7 +102,7 @@
                                             </div>
                                             <div class="nhsuk-radios__item">
                                                 <input class="nhsuk-radios__input" id="input-signatory-else" name="signatoryProxyDeclaration" type="radio" value="false">
-                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory</label>
+                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory<br />(you will be required to give your details in the next section)</label>
                                             </div>
                                             {% else %}
                                             {% if visited.signatoryProxyDeclaration === 'true' %}
@@ -111,7 +112,7 @@
                                             </div>
                                             <div class="nhsuk-radios__item">
                                                 <input class="nhsuk-radios__input" id="input-signatory-else" name="signatoryProxyDeclaration" type="radio" value="false">
-                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory</label>
+                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory<br />(you will be required to give your details in the next section)</label>
                                             </div>
                                             {% else %}
                                             <div class="nhsuk-radios__item">
@@ -120,7 +121,7 @@
                                             </div>
                                             <div class="nhsuk-radios__item">
                                                 <input class="nhsuk-radios__input" id="input-signatory-else" name="signatoryProxyDeclaration" type="radio" value="false" checked>
-                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory</label>
+                                                <label class="nhsuk-label nhsuk-radios__label" for="input-signatory-else">I am completing this agreement on behalf of this signatory<br />(you will be required to give your details in the next section)</label>
                                             </div>
                                             {% endif %}
                                             {% endif %}

@@ -3,25 +3,30 @@
         <ol class="nhsuk-breadcrumb__list">
             <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./index">Home</a></li>
             {% if enabledProgressBookmarks.step1 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-1">Step 1</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-1">Software Supplier</a></li>
             {% endif %}
             {% if enabledProgressBookmarks.step2 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-2">Step 2</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-2">Organisation Details</a></li>
             {% endif %}
             {% if enabledProgressBookmarks.step3 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-3">Step 3</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-3">Signatory Details</a></li>
+            {% endif %}
+            {% if enabledProgressBookmarks.step3a %}
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-3-1">Proxy Signatory Details</a></li>
             {% endif %}
             {% if enabledProgressBookmarks.step4 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-4">Step 4</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-4">Care Setting</a></li>
             {% endif %}
             {% if enabledProgressBookmarks.step5 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-5">Step 5</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-5">Use Case</a></li>
             {% endif %}
             {% if enabledProgressBookmarks.step6 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-6">Step 6</a></li>
+            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-6">Agreement</a></li>
             {% endif %}
-            {% if enabledProgressBookmarks.step7 %}
-            <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-7">Step 7</a></li>
+            {% if enabledProgressBookmarks.inlineAgreement === false %}
+                {% if enabledProgressBookmarks.step7 %}
+                <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./step-7">Consent</a></li>
+                {% endif %}
             {% endif %}
             {% if enabledProgressBookmarks.review %}
             <li class="nhsuk-breadcrumb__item"><a class="nhsuk-breadcrumb__link" href="./review">Review</a></li>

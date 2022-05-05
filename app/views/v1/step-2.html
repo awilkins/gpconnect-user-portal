@@ -53,6 +53,9 @@
 
                                     <input class="nhsuk-input{% if 'organisationName' in notCompletedArray %} nhsuk-input--error{% endif %}" id="input-organisation-name" name="organisationName" type="text" aria-describedby="input-organisation-name-with-hint-text-hint" value="{{ visited.organisationName }}">
                                 </div>
+
+                                <input id="input-site-ods-code" name="siteOdsCode" type="hidden" value="J82132">
+
                                 <fieldset class="nhsuk-fieldset">
                                     <legend class="nhsuk-fieldset__legend nhsuk-fieldset__legend--l">
                                         <h1 class="nhsuk-fieldset__heading">
@@ -100,7 +103,7 @@
                 </div>
                 <div class="nhsuk-grid-row">
                     <div class="nhsuk-grid-column-one-half">
-                        <button class="nhsuk-button nhsuk-button--primary">Continue</button>
+                        <button value="submitformvalues" class="nhsuk-button nhsuk-button--primary" name="action">Continue</button>
                     </div>
                 </div>
             </main>
