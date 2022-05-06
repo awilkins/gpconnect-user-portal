@@ -2,6 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const url = require('url')
+const axios = require('axios');
 
 // NPM dependencies
 const bodyParser = require('body-parser')
@@ -161,7 +162,7 @@ app.get("/*/step-1", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -170,7 +171,7 @@ app.get("/*/step-2", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -216,7 +217,7 @@ app.get("/*/step-6", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -225,7 +226,7 @@ app.get("/*/step-7", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
@@ -234,16 +235,16 @@ app.get("/*/review", (req, res) => {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
     else {
-        res.redirect("/index");
+        res.redirect("./index");
     }
 });
 
-app.get("/search", (req, res) => {
+app.get("/*/search", (req, res) => {
     resetSearchFields();
-    res.render("search", { search: search });
+    res.render(req.path.substring(1), { search: search });
 });
 
-app.post("/search", function (req, res) {
+app.post("/*/search", function (req, res) {
 
     searchResults.length = 0;
 
@@ -312,12 +313,10 @@ app.post("/search", function (req, res) {
             }
             break;
     }
-
-    res.render("search", { search: search, searchResults: searchResults, searchResultsCount: searchResultsCount });
+    res.render(req.path.substring(1), { search: search, searchResults: searchResults, searchResultsCount: searchResultsCount });
 });
 
 app.post('/email-address-page', function (req, res) {
-
     notify
         .sendEmail(
             '6a5b377e-4763-4618-bd7b-7b31ac823849',
@@ -332,7 +331,7 @@ app.post('/email-address-page', function (req, res) {
         )
         .then(response => console.log(response))
         .catch(err => console.error(err));
-    res.redirect('/');
+    res.redirect('/' + req.body.version);
 });
 
 app.post("/*/review", function (req, res) {
@@ -374,6 +373,20 @@ app.post("/*/step-1", function (req, res) {
         res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
     }
 });
+
+function getOrganisation(siteOdsCode) {
+    axios.get('https://directory.spineservices.nhs.uk/ORD/2-0-0/organisations/' + siteOdsCode)
+        .then(response => populateOrganisationDetails(siteOdsCode, response.data));
+}
+
+function populateOrganisationDetails(siteOdsCode, data) {
+    visited.siteOdsCode = siteOdsCode;
+    visited.organisationName = data.Organisation.Name;
+    visited.organisationBuilding = data.Organisation.GeoLoc.Location.AddrLn1;
+    visited.organisationStreet = data.Organisation.GeoLoc.Location.AddrLn2;
+    visited.organisationTown = data.Organisation.GeoLoc.Location.Town;
+    visited.organisationPostcode = data.Organisation.GeoLoc.Location.PostCode;
+}
 
 app.post("/*/step-2", function (req, res) {
 
@@ -440,7 +453,7 @@ app.post("/*/step-2", function (req, res) {
                 res.render(req.path.substring(1), { visited: visited, enabledProgressBookmarks: enabledProgressBookmarks, notCompletedArray: notCompletedArray });
             }
             break;
-    }    
+    }
 });
 
 app.post("/*/step-3", function (req, res) {
@@ -449,15 +462,15 @@ app.post("/*/step-3", function (req, res) {
     notCompletedArray.length = 0;
 
     var showProxyDetails = req.body.showProxyDetails;
-    var signatoryProxyDeclaration = req.body.signatoryProxyDeclaration;    
+    var signatoryProxyDeclaration = req.body.signatoryProxyDeclaration;
 
     if (req.body.signatoryName === '') { notCompletedArray.push('signatoryName') } else { visited.signatoryName = req.body.signatoryName };
     if (req.body.signatoryJobTitle === '') { notCompletedArray.push('signatoryJobTitle') } else { visited.signatoryJobTitle = req.body.signatoryJobTitle };
     if (req.body.signatoryEmail === '') { notCompletedArray.push('signatoryEmail') } else { visited.signatoryEmail = req.body.signatoryEmail };
     if (req.body.signatoryProxyDeclaration === '') { notCompletedArray.push('signatoryProxyDeclaration') } else { visited.signatoryProxyDeclaration = req.body.signatoryProxyDeclaration };
-        
+
     if (notCompletedArray.length == 0) {
-        
+
         if (showProxyDetails) {
             if (signatoryProxyDeclaration === 'true') {
                 nextStep = '/' + req.path.split('/')[1] + '/step-4';
@@ -474,7 +487,7 @@ app.post("/*/step-3", function (req, res) {
             nextStep = '/' + req.path.split('/')[1] + '/step-4';
             enabledProgressBookmarks.step4 = true;
         }
-        
+
         if (enabledProgressBookmarks.review === false) {
             res.redirect(nextStep);
         }
@@ -582,7 +595,7 @@ app.post("/*/step-6", function (req, res) {
     }
 
     console.log(nextStep);
-    
+
     if (enabledProgressBookmarks.review === false) {
         res.redirect(nextStep);
     }
